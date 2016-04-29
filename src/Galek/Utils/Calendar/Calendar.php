@@ -145,7 +145,7 @@ class Calendar extends DateTime{
      * @return int
      */
     public function getDay(){
-		return $this->format("d");
+		return (int) $this->format("d");
     }
     
     /**
@@ -153,7 +153,7 @@ class Calendar extends DateTime{
      * @return int
      */
     public function getMon(){
-		return $this->format("m");
+		return (int) $this->format("m");
     }
     
     /**
@@ -185,7 +185,7 @@ class Calendar extends DateTime{
      * @return int
      */
     public function getSecond(){
-		return $this->format("s");
+		return (int) $this->format("s");
     }
     
     /**
@@ -304,6 +304,10 @@ class Calendar extends DateTime{
 			}else{
 				return TRUE;
 			}
+		}else{
+			if($this->getMinute() <= $minute){
+				return TRUE;
+			}
 		}
 		return FALSE;
     }
@@ -331,7 +335,7 @@ class Calendar extends DateTime{
 	 * @return boolean|string
 	 */
     public function werbDif($werb=array(),$date=NULL){
-		$curDate = new DateTime();
+		$curDate = new Calendar();
 		$date2 = ($date ? $date : $this);
 		$diff = $date2->diff($curDate)->days;
 
@@ -461,7 +465,7 @@ class Calendar extends DateTime{
 			return FALSE;
 		}
 
-		return $datum;
+		return new Calendar($datum);
     }
     
     /**
