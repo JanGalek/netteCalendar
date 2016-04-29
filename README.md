@@ -6,7 +6,6 @@
 Extend Nette\Utils\DateTime() for Nette framework
 
 
-
 Package Installation
 -------------------
 
