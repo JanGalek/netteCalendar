@@ -13,11 +13,11 @@ class DodaniTest extends CalendarTestCase{
     }
 
     public function testRenderPoup(){
-		$testTime1 = new Calendar();
+		$testTime1 = new Calendar('29.04.2016 14:02');
 		$testTime1->modify('+4 days');
 		
 		Assert::equal('2', $testTime1->format('w'),'Test dne v tydnu');
-		$testTime2 = new Calendar();
+		$testTime2 = new Calendar('29.04.2016 14:02');
 
 		$testTime2->modify('+2 days');
 		Assert::equal('0', $testTime2->format('w'),'Test Nedele');
