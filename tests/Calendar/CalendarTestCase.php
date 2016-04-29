@@ -5,6 +5,9 @@ require __DIR__ . '/../../src/Galek/Utils/Calendar/Calendar.php';
 
 abstract class CalendarTestCase extends Tester\TestCase {
     
-    function __construct(){
+	const daterelease = '29.04.2016';
+
+
+	function __construct(){
     }
 }

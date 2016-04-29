@@ -9,10 +9,10 @@ class WorkDaysTest extends CalendarTestCase{
 
     public function testWorkday1(){
 	
-		$date = new Calendar('29.04.2016 14:02');
+		$date = new Calendar(self::daterelease.' 14:02');
 
-		Assert::equal('29.04.2016', $date->format('d.m.Y'), 'dneska pracovni den 1');
-		Assert::equal('29.04.2016', $date->getDateFormat(), 'dneska pracovni den');
+		Assert::equal(self::daterelease, $date->format('d.m.Y'), 'dneska pracovni den 1');
+		Assert::equal(self::daterelease, $date->getDateFormat(), 'dneska pracovni den');
 		Assert::equal(5, $date->dayNumber(),'Start is Day number 5 ?');
 		Assert::equal(FALSE, $date->isSaturday(),'Start is Saturday ?');
 		Assert::equal(FALSE, $date->isSunday(),'Start is Sunday ?');
@@ -21,7 +21,7 @@ class WorkDaysTest extends CalendarTestCase{
 		Assert::equal(TRUE, $date->isWorkDay(),'Start is workday ?');
 
 		$date->getWorkDay();
-		Assert::equal('29.04.2016', $date->format('d.m.Y'), 'dneska pracovni den 2');
+		Assert::equal(self::daterelease, $date->format('d.m.Y'), 'dneska pracovni den 2');
 		Assert::equal(TRUE, $date->isWorkDay());
 
 		$date->getWorkDay(TRUE);
