@@ -1,0 +1,43 @@
+sudo: true
+language: php
+
+php:
+  - 5.6
+  - 7.0
+  - hhvm
+
+env:
+  - TESTER_PHP_BIN="php-cgi"
+  - TESTER_PHP_BIN="hhvm"
+
+matrix:
+  allow_failures:
+    - php: hhvm
+
+  exclude:
+
+    - php: 5.6
+      env: TESTER_PHP_BIN="hhvm"
+
+    - php: 7.0
+      env: TESTER_PHP_BIN="hhvm"
+
+    - php: hhvm
+      env: TESTER_PHP_BIN="php-cgi"
+
+services:
+  - redis-server
+
+before_install:
+  - composer self-update
+
+install:
+  - composer install --no-interaction --prefer-source
+ 
+script:
+  - ./vendor/bin/tester -p $TESTER_PHP_BIN -s ./tests/
+#  - ./vendor/bin/tester -p $TESTER_PHP_BIN -c ./tests/GalekTests/Socials/php.ini -s ./tests/
+
+after_failure:
+  # Vytiskne obsah souborů *.actual
+  - for i in $(find ./tests -name \*.actual); do echo "--- $i"; cat $i; echo; echo; done

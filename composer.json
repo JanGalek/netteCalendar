@@ -1,0 +1,22 @@
+{
+    "name": "galek/nette-calendar",
+    "description": "Extending DateTime for Nette framework.",
+    "license": "GPL-3.0",
+    "authors": [
+        {
+	  "name": "Jan Galek",
+	  "email": "admin@gcore.cz"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+	  "Galek\\Utils\\": "src/Galek/Utils/"
+        }
+    },
+    "require": {
+        "nette/utils": "^2.3"
+    },
+    "require-dev": {
+        "nette/tester": "^1.7"
+    }
+}
