@@ -14,6 +14,8 @@ class Calendar extends DateTime{
     
     /** @var \DateTime */
     public $date;
+	/** @var int Number of days to delivery */
+	public $shippingtime = 1;
     
     /**
      *	Werbs for different between current Date and setted Date (@var $date)
@@ -140,7 +142,24 @@ class Calendar extends DateTime{
 			$this->date = $this->curDate;
 		}
     }
-    /**
+	
+	/**
+	 * Set number of days to delivery
+	 * @param int $shippingtime
+	 */
+	public function setShippingDays(int $shippingtime){
+		$this->shippingtime = $shippingtime;
+	}
+	
+	/**
+	 * Get number of days to delivery
+	 * @return int
+	 */
+	public function getShippingDays(){
+		return $this->shippingtime;
+	}
+
+	/**
      * Get Day
      * @return int
      */
@@ -515,7 +534,7 @@ class Calendar extends DateTime{
 		
 		$date = $this->getShippingTimeTest($hour, $minute);
 		if($date->isWeekend()){
-			$date->modify('+1 days');
+			$date->modify('+'.$this->shippingtime.' days');
 		}
 		$date->getWorkDay(TRUE);
 		
