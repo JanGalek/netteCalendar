@@ -391,7 +391,7 @@ class Calendar extends DateTime{
     }
 
 	/**
-	 * Get Easter Monday
+	 * Get Easter
 	 * @param type $rok
 	 * @return type
 	 */
