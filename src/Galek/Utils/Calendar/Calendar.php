@@ -145,10 +145,10 @@ class Calendar extends DateTime{
 	
 	/**
 	 * Set number of days to delivery
-	 * @param int $shippingtime
+	 * @param int
 	 */
-	public function setShippingDays(int $shippingtime){
-		$this->shippingtime = $shippingtime;
+	public function setShippingDays($shippingtime){
+		$this->shippingtime = (int) $shippingtime;
 	}
 	
 	/**
