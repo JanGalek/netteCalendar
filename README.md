@@ -29,6 +29,8 @@ Usage
 -----
 
 ```php
+    use \Galek\Utils\Calendar;
+
     $date = new Calendar();
 
     if($date->isWorkday()){
