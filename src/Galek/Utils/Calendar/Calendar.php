@@ -28,12 +28,6 @@ class Calendar extends DateTime
      * @example <5> 'after'
      * @example <5 X days
      * @example >=5 X days
-     * @example 0 dnes
-     * @example 1 zítra
-     * @example 2 pozítří
-     * @example <5> 'za'
-     * @example <5 X dny
-     * @example >=5 X dnů
      * @var array
      */
     public $difWerbs = [
@@ -131,6 +125,20 @@ class Calendar extends DateTime
     		'12-25',
     		'12-26',
     ];
+
+    /**
+      * Use 24 hours type
+      * ['work start ([hour,minute])', 'work_end ([hour,minute])']
+      * @example [ ['8','0'], ['16','30'] ]
+      * @var array
+      */
+      private $working_time = [
+          ['8', '0'],
+          ['16', '0'],
+      ];
+
+    const WORKTIME_START = 1,
+          WORKTIME_END = 2;
 
     /**
      * @param $time [optional]
@@ -542,6 +550,7 @@ class Calendar extends DateTime
 
 	/**
 	 * Get workday
+	 * @param array $worktime Set WorkTime
 	 * @param boolean $next Get next workday
 	 * @param \Galek\Utils\Calendar $date
 	 * @return \Galek\Utils\Calendar
@@ -550,6 +559,11 @@ class Calendar extends DateTime
     {
     		if (!$date) {
             $date = $this;
+        }
+
+        if ($next instanceof Calendar or $next instanceof \DateTime or $next instanceof \Nette\Utils\DateTime) {
+            $date = $next;
+            $next = $false;
         }
 
     		if ($next) {
@@ -562,15 +576,118 @@ class Calendar extends DateTime
       			} else {
         				$date->modify('+2 days');
       			}
-    		} else {
-      			if ($date->isHoliday()) {
-          			$date->modify('+1 days');
-      			}
+    		} elseif ($date->isHoliday()) {
+        			$date->modify('+1 days');
     		}
 
     		return $date;
     }
+
+    public function GetWorkDayLimit($worktime=true, $date=false)
+    {
+        if (!$date) {
+            $date = $this;
+        }
+
+        if ($worktime == true) {
+            $limit = $this->getWorkTime();
+            $sH = $limit[0][0];
+            $sM = $limit[0][1];
+            $eH = $limit[1][0];
+            $eM = $limit[1][1];
+
+            if ($this->timeBellow($eH, $eM) == false) {
+                  $date->modify('+1 days');
+            }
+        } else {
+            //$date = $this->getWorkDay();
+        }
+
+          $date->getWorkDay();
+        return $date;
+    }
+
     /**
+     *
+     * @param mixed $worktime    Work time in array () or hour of work time (int)
+     * @param int $startMinute [description]
+     * @param int $endHour     [description]
+     * @param int $endMinute   [description]
+     */
+    public function setWorkTime($worktime, $startMinute=false, $endHour=false, $endMinute=false)
+    {
+        if (is_array($worktime)) {
+
+              if (is_array($worktime[0])) {
+
+                  $startHour = (int) $worktime[0][0];
+                  $startMinute = (int) $worktime[0][1];
+
+                  if (isset($worktime[1])) {
+                        $endHour = $worktime[1][0];
+                        $endMinute = $worktime[1][1];
+                  }
+
+                  if (isset($worktime[0][2])) {
+                        $endHour = $worktime[0][2];
+                  }
+
+                  if (isset($worktime[0][3])) {
+                      $endMinute = $worktime[0][3];
+                  }
+              } else {
+                  $startHour = $worktime[0];
+                  $startMinute = (int) $worktime[1];
+                  $endHour = (int) $worktime[2];
+                  $endMinute = (int) $worktime[3];
+              }
+
+        } elseif (is_int( (int) $worktime)) {
+              $startHour = $worktime;
+              $startMinute = (int) $startMinute;
+              $endHour = (int) $endHour;
+              $endMinute = (int) $endMinute;
+        } else {
+              throw new \Exception( "Value '$worktime' is not allowed, use array (full list) or int (hour)" );
+        }
+
+        if ($startHour < 0 or $startHour > 23) {
+            throw new \Exception( "Try set bad value of start work time hour ('$startHour'), use 0-23." );
+        }
+
+        if ($endHour < 0 or $endHour > 23) {
+              throw new \Exception( "Try set bad value of end work time hour ('$endHour'), use 0-23." );
+        }
+
+        if ($startMinute < 0 or $startMinute > 59) {
+              throw new \Exception( "Try set bad value of start work time minute ('$startMinute'), use 0-59." );
+        }
+
+        if ($endMinute < 0 or $endMinute > 59) {
+              throw new \Exception( "Try set bad value of end work time minute ('$endMinute'), use 0-59." );
+        }
+        $this->working_time = [ [(int) $startHour, (int) $startMinute], [(int) $endHour, (int) $endMinute] ];
+        //return $this->worktime_time;
+    }
+
+    public function getWorkTime($type=false)
+    {
+        if ($type === false) {
+              return $this->working_time;
+        }
+
+        $type = (int) $type;
+
+        if ($type == self::WORKTIME_START) {
+              return $this->working_time[0];
+        } elseif ($type == self::WORKTIME_END) {
+              return $this->working_time[1];
+        }
+
+        throw new \Exception( "Value '$type' is not allowed, you can use (false, 1, 2)" );
+    }
+
+ /**
 	 * Get Shipping time
 	 * @param int $hour default FALSE
 	 * @param int $minute default 0
@@ -592,17 +709,17 @@ class Calendar extends DateTime
 	 * @param int $minute
 	 * @return \Galek\Utils\Calendar
 	 */
-	public function getShippingTimeTest($hour=false, $minute=0)
-  {
-  		$date = $this;
-  		if ($hour) {
-    			if (!$date->timeBellow($hour, $minute)) {
-      				$date->modify('+1 days');
-    			}
-    			if ($this->isFriday() || $this->isWeekend()) {
-      				$date->modify('+1 days');
-    			}
-  		}
-  		return $date;
-	}
+  	public function getShippingTimeTest($hour=false, $minute=0)
+    {
+    		$date = $this;
+    		if ($hour) {
+      			if (!$date->timeBellow($hour, $minute)) {
+        				$date->modify('+1 days');
+      			}
+      			if ($this->isFriday() || $this->isWeekend()) {
+        				$date->modify('+1 days');
+      			}
+    		}
+    		return $date;
+  	}
 }
