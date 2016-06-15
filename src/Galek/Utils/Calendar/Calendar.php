@@ -351,8 +351,10 @@ class Calendar extends DateTime
      * @param int $minute format: 1,2,3,..9,10,...
      * @return boolean
      */
-    public function timeBellow($hour, $minute=0)
+    public function timeBellow($hour, $minute = 0)
     {
+
+
     		if ($this->getHour() <= $hour) {
       			if ($this->getHour() == $hour) {
         				if ($this->getMinute() <= $minute) {
@@ -361,10 +363,6 @@ class Calendar extends DateTime
       			} else {
         				return true;
       			}
-    		} else {
-    			if ($this->getMinute() <= $minute) {
-      				return true;
-    			}
     		}
     		return false;
     }

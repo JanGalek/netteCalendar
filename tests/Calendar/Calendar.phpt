@@ -91,20 +91,24 @@ class CalendarTest extends CalendarTestCase
 
   	public function testTimes()
     {
-    		$date = new Calendar(self::daterelease.' 1:00:00');
+    		$date = new Calendar(self::daterelease.' 01:00');
     		Assert::equal(1, $date->getHour(), 'Hour');
     		Assert::equal(0, $date->getMinute(), 'Minute');
     		Assert::equal(0, $date->getSecond(), 'Second');
     		Assert::equal(29, $date->getDay(), 'Day');
     		Assert::equal(4, $date->getMon(), 'Month');
     		Assert::equal(2016, $date->getYear(), 'Year');
-    		Assert::equal(true, $date->timeBellow(0, 20), 'Time bellow');
+    		Assert::equal(false, $date->timeBellow(0, 20), 'Time bellow 0:20 bellow 01:00');
 
     		$date2 = new Calendar(self::daterelease.' 23:58:02');
     		Assert::equal(23, $date2->getHour(), 'Hour');
     		Assert::equal(58, $date2->getMinute(), 'Minute');
     		Assert::equal(2, $date2->getSecond(), 'Second');
     		Assert::equal(false, $date2->timeBellow(16, 20), 'Time bellow');
+
+        $date3 = new Calendar(self::daterelease.' 18:02');
+    		Assert::equal(false, $date2->timeBellow(16, 20), 'Time bellow 2');
+
   	}
 
 
