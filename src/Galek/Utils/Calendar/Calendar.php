@@ -331,18 +331,24 @@ class Calendar extends DateTime
     		return false;
     }
     /**
-	 * Check if is Workday
-	 * @return boolean
-	 */
-    public function isWorkDay()
+    * Check if is Workday
+    * @return boolean
+    */
+    public function isWorkDay($date = false)
     {
-    		if ($this->isHoliday()) {
-    			return false;
-    		}
-    		if ($this->isWeekend()) {
-    			return false;
-    		}
-    		return true;
+        if ($date === false) {
+            $testDate = $this;
+        } else {
+            $testDate = $date;
+        }
+
+    	if ($testDate->isHoliday()) {
+    		return false;
+    	}
+    	if ($testDate->isWeekend()) {
+    		return false;
+    	}
+    	return true;
     }
 
     /**
@@ -353,8 +359,6 @@ class Calendar extends DateTime
      */
     public function timeBellow($hour, $minute = 0)
     {
-
-
     		if ($this->getHour() <= $hour) {
       			if ($this->getHour() == $hour) {
         				if ($this->getMinute() <= $minute) {
@@ -553,9 +557,9 @@ class Calendar extends DateTime
 	 * @param \Galek\Utils\Calendar $date
 	 * @return \Galek\Utils\Calendar
 	 */
-    public function getWorkDay($next=false, $date=false)
+    public function getWorkDay($next = false, $date = false)
     {
-    		if (!$date) {
+    	if (!$date) {
             $date = $this;
         }
 
@@ -564,21 +568,25 @@ class Calendar extends DateTime
             $next = $false;
         }
 
-    		if ($next) {
-      			$date->modify('+1 days');
-    		}
+		if ($next) {
+  			$date->modify('+1 days');
+		}
 
-    		if ($date->isWeekend()) {
-      			if ($date->isSunday()) {
-        				$date->modify('+1 days');
-      			} else {
-        				$date->modify('+2 days');
-      			}
-    		} elseif ($date->isHoliday()) {
-        			$date->modify('+1 days');
-    		}
+		if ($date->isWeekend()) {
+  			if ($date->isSunday()) {
+    				$date->modify('+1 days');
+  			} else {
+    				$date->modify('+2 days');
+  			}
+		} elseif ($date->isHoliday()) {
+    			$date->modify('+1 days');
+		}
 
-    		return $date;
+        if (!$this->isWorkDay($date)) {
+            $this->getWorkDay();
+        }
+
+	    return $date;
     }
 
     public function GetWorkDayLimit($worktime=true, $date=false)
@@ -701,23 +709,27 @@ class Calendar extends DateTime
 
     		return $date;
     }
-	/**
-	 * Help for Shipping time
-	 * @param int $hour
-	 * @param int $minute
-	 * @return \Galek\Utils\Calendar
-	 */
-  	public function getShippingTimeTest($hour=false, $minute=0)
+    /**
+     * Help for Shipping time
+     * @param int $hour
+     * @param int $minute
+     * @return \Galek\Utils\Calendar
+     */
+ 	public function getShippingTimeTest($hour = false, $minute = 0)
     {
-    		$date = $this;
-    		if ($hour) {
-      			if (!$date->timeBellow($hour, $minute)) {
-        				$date->modify('+1 days');
-      			}
-      			if ($this->isFriday() || $this->isWeekend()) {
-        				$date->modify('+1 days');
-      			}
-    		}
-    		return $date;
-  	}
+    	$date = $this;
+        if ($date->isHoliday() and !$date->isWeekend()) {
+			//$date->modify('+1 days');
+            $date->getWorkDay();
+        }
+    	if ($hour) {
+      		if (!$date->timeBellow($hour, $minute)) {
+        		$date->modify('+1 days');
+      		}
+      		if ($this->isFriday() || $this->isWeekend()) {
+        		$date->modify('+1 days');
+      		}
+    	}
+    	return $date;
+ 	}
 }

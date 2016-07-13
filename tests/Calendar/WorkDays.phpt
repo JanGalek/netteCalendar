@@ -157,6 +157,55 @@ class WorkDaysTest extends CalendarTestCase
     		Assert::equal('06.05.2016', $date->format('d.m.Y'), 'dalsi pracovni den 3');
     }
 
+    public function testWorkday8()
+    {
+    		$date = new Calendar('06.07.2016 09:02');
+    		Assert::equal(false, $date->isWorkDay(), 'Start is workday ?');
+
+    		$date->getWorkDay();
+    		Assert::equal('07.07.2016', $date->format('d.m.Y'), 'dneska pracovni den 2');
+    		Assert::equal(true, $date->isWorkDay());
+
+    		$date->getWorkDay(true);
+    		Assert::equal('08.07.2016', $date->format('d.m.Y'), 'dalsi pracovni den 3');
+    }
+
+    public function testWorkday9()
+    {
+    		$date = new Calendar('06.07.2016 09:02');
+            $date->getShippingTime(14, 0);
+    		Assert::equal('08.07.2016', $date->format('d.m.Y'), 'dneska pracovni den 1');
+    		Assert::equal(true, $date->isWorkDay(), 'Start is workday ?');
+
+    		$date->getWorkDay();
+    		Assert::equal('08.07.2016', $date->format('d.m.Y'), 'dneska pracovni den 2');
+    		Assert::equal(true, $date->isWorkDay());
+
+    		$date->getWorkDay(true);
+    		Assert::equal('11.07.2016', $date->format('d.m.Y'), 'dalsi pracovni den 3');
+    }
+
+    public function testWorkday10()
+    {
+    		$date = new Calendar('05.07.2016 09:02');
+            $date2 = new Calendar('05.07.2016 09:02');
+
+            $date2->getWorkDay();
+
+    		Assert::equal('07.07.2016', $date2->format('d.m.Y'), 'WORKDAY pracovni den 1');
+
+            $date->getShippingTime(14, 0);
+    		Assert::equal('08.07.2016', $date->format('d.m.Y'), 'dneska pracovni den 1');
+    		Assert::equal(true, $date->isWorkDay(), 'Start is workday ?');
+
+    		$date->getWorkDay();
+    		Assert::equal('08.07.2016', $date->format('d.m.Y'), 'dneska pracovni den 2');
+    		Assert::equal(true, $date->isWorkDay());
+
+    		$date->getWorkDay(true);
+    		Assert::equal('11.07.2016', $date->format('d.m.Y'), 'dalsi pracovni den 3');
+    }
+
 }
 
 $testCase = new WorkDaysTest();
