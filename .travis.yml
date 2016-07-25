@@ -7,6 +7,8 @@ php:
   - 5.5
   - 5.6
   - 7.0
+  - 7.1
+  - 7.2
   - hhvm
 
 env:
@@ -18,6 +20,8 @@ matrix:
     - php: hhvm
     - php: 5.3.3
     - php: 5.5
+    - php: 7.1
+    - php: 7.2
 
   exclude:
 
@@ -47,7 +51,7 @@ before_install:
 
 install:
   - composer install --no-interaction --prefer-source
- 
+
 script:
   - ./vendor/bin/tester -p $TESTER_PHP_BIN -s ./tests/
 #  - ./vendor/bin/tester -p $TESTER_PHP_BIN -c ./tests/GalekTests/Socials/php.ini -s ./tests/
