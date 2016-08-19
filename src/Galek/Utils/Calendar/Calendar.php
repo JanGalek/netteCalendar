@@ -6,7 +6,9 @@ use \Nette\Utils\DateTime;
 date_default_timezone_set('Europe/Prague');
 
 /**
+ * Extensions function to \Nette\Utils\DateTime
  * @author Galek
+ *
  */
 class Calendar extends DateTime
 {
