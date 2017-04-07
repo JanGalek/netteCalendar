@@ -1,6 +1,6 @@
 # nette Calendar
 
-[![Travis] (https://travis-ci.org/JanGalek/netteCalendar.svg?branch=master)](https://travis-ci.org/JanGalek/netteCalendar)
+[![Travis](https://travis-ci.org/JanGalek/netteCalendar.svg?branch=master)](https://travis-ci.org/JanGalek/netteCalendar)
 [![Total Downloads](https://poser.pugx.org/galek/nette-calendar/downloads)](https://packagist.org/packages/galek/nette-calendar)
 [![Latest Stable Version](https://poser.pugx.org/galek/nette-calendar/v/stable)](https://packagist.org/packages/galek/nette-calendar)
 [![License](https://poser.pugx.org/galek/nette-calendar/license)](https://packagist.org/packages/galek/nette-calendar)
