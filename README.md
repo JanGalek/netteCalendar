@@ -59,7 +59,7 @@ Usage
     
     /**
      * $date->setShippingTime(14, 20);
-     * $date->getShippingDate
+     * $date->getShippingDate()
      * Friday 9:30 < 14:20 = Monday
      * Friday 14:30 > 14:20 = Wednesday (Monday send)
      * etc...

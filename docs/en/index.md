@@ -29,11 +29,19 @@ Usage
     
     /**
      * $date->setShippingTime(14, 20);
-     * $date->getShippingDate
+     * $date->getShippingDate()
      * Friday 9:30 < 14:20 = Monday
      * Friday 14:30 > 14:20 = Wednesday (Monday send)
      * etc...
      **/
+
+     $date->enableShippingWeekend();
+     $date->setShippingTime(14, 20);
+     echo "Date for shipping to some Hour and minute include weekend:".$date->getShippingDate()->format('d.m.Y');
+     
+     $date->setShippingDays(3); // Default 1
+     $date->setShippingTime(14, 20);
+     echo "Date for shipping to some Hour and minute with delay:".$date->getShippingDate()->format('d.m.Y');
 ```
 
 Example #1

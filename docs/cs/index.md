@@ -29,11 +29,19 @@ Použití
     
     /**
      * $date->setShippingTime(14, 20);
-     * $date->getShippingDate
+     * $date->getShippingDate()
      * Pátek 9:30 < 14:20 = Pondělí
      * Pátek 14:30 > 14:20 = Středa (V pondělí se odesílá)
      * etc...
      **/
+     
+     $date->enableShippingWeekend();
+     $date->setShippingTime(14, 20);
+     echo "Datum dopravy v určitou hodinu a minutu a to i o výkendu:".$date->getShippingDate()->format('d.m.Y');
+     
+     $date->setShippingDays(3); // Default 1
+     $date->setShippingTime(14, 20);
+     echo "Datum dopravy v určitou hodinu a minutu s prodlevou:".$date->getShippingDate()->format('d.m.Y');
 ```
 
 Ukázka #1
