@@ -51,7 +51,7 @@ class WorkTimeTest extends CalendarTestCase
 
     public function testWorkday1()
     {
-        $date = new Calendar(self::daterelease.' 14:02');
+        $date = new Calendar(self::daterelease . ' 14:02');
         $date->setWorkTime(8, 0, 16, 30);
         $date2 = $date;
         $date3 = $date;
@@ -59,8 +59,8 @@ class WorkTimeTest extends CalendarTestCase
 
         $date->GetWorkDayLimit(false);
         Assert::equal(self::daterelease, $date->format('d.m.Y'), 'dneska pracovni den 2');
-        Assert::equal(true, $date->isWorkDay());
-        Assert::equal(true, $date->isWorkTime());
+        Assert::equal(TRUE, $date->isWorkDay());
+        Assert::equal(TRUE, $date->isWorkTime());
 
         $date2->GetWorkDayLimit();
         Assert::equal('29.04.2016', $date2->format('d.m.Y'), 'dalsi pracovni den 4');
@@ -68,53 +68,53 @@ class WorkTimeTest extends CalendarTestCase
         $date3->GetWorkDayLimit(false);
         Assert::equal('29.04.2016', $date3->format('d.m.Y'), 'dalsi pracovni den 5');
 
-        $date4->GetWorkDayLimit(true);
+        $date4->GetWorkDayLimit(TRUE);
         Assert::equal('29.04.2016', $date4->format('d.m.Y'), 'dalsi pracovni den 3');
 
         // Work time checking
         $date5 = new Calendar(self::daterelease . ' 08:02');
 
         $date5->setWorkTime(8, 0, 16, 30);
-        Assert::equal(true, $date5->isWorkTime());
+        Assert::equal(TRUE, $date5->isWorkTime());
 
         $date5->setWorkTime(9, 0, 16, 30);
         Assert::equal(false, $date5->isWorkTime());
 
         $date6 = new Calendar('25.4.2017 08:02');
         $date6->setWorkTime(23, 0, 9, 30);
-        Assert::equal(true, $date6->isWorkTime());
+        Assert::equal(TRUE, $date6->isWorkTime());
 
     }
 
     public function testWorkday2()
     {
-        $date = new Calendar(self::daterelease.' 16:32');
+        $date = new Calendar(self::daterelease . ' 16:32');
         $date->setWorkTime(8, 0, 16, 30);
-        $date2 = new Calendar(self::daterelease.' 16:32');
+        $date2 = new Calendar(self::daterelease . ' 16:32');
         $date2->setWorkTime(8, 0, 16, 30);
 
-        $date3 = new Calendar(self::daterelease.' 16:32');
+        $date3 = new Calendar(self::daterelease . ' 16:32');
         $date3->setWorkTime(8, 0, 16, 30);
 
-        $date4 = new Calendar(self::daterelease.' 16:32');
+        $date4 = new Calendar(self::daterelease . ' 16:32');
         $date4->setWorkTime(8, 0, 16, 30);
 
-        $date5 = new Calendar(self::daterelease.' 18:11');
+        $date5 = new Calendar(self::daterelease . ' 18:11');
         $date5->setWorkTime(8, 0, 16, 30);
 
         //$date6 = $date5;
 
-        $date->GetWorkDayLimit(false);
+        $date->GetWorkDayLimit(FALSE);
         Assert::equal(self::daterelease, $date->format('d.m.Y'), 'dneska pracovni den 2');
-        Assert::equal(true, $date->isWorkDay());
+        Assert::equal(TRUE, $date->isWorkDay());
 
-        $date3->GetWorkDayLimit(true);
+        $date3->GetWorkDayLimit(TRUE);
         Assert::equal('02.05.2016', $date3->format('d.m.Y'), 'dalsi pracovni den 5');
 
-        $date4->GetWorkDayLimit(false);
+        $date4->GetWorkDayLimit(FALSE);
         Assert::equal('29.04.2016', $date4->format('d.m.Y'), 'dalsi pracovni den 3');
 
-        $date5->GetWorkDayLimit(true);
+        $date5->GetWorkDayLimit(TRUE);
         $date6 = $date5;
         $time = $date5->getWorkTime();
         Assert::equal(8, $time[0][0], 'Test GetWorkTime() start hour');
@@ -123,7 +123,7 @@ class WorkTimeTest extends CalendarTestCase
         Assert::equal(30, $time[1][1], 'Test GetWorkTime() end minute');
         Assert::equal(18, $date6->getHour(), 'Test hour');
         Assert::equal(11, $date6->getMinute(), 'Test minute');
-        Assert::equal(false, $date6->timeBellow($time[1][0], $time[1][1]), 'Time bellow ....');
+        Assert::equal(FALSE, $date6->timeBellow($time[1][0], $time[1][1]), 'Time bellow ....');
         Assert::equal('02.05.2016', $date5->format('d.m.Y'), 'Test minut');
     }
 
