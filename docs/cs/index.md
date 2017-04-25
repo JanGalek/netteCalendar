@@ -22,17 +22,18 @@ Použití
 
     echo "Dnes nebo příští pracovní den je:".$date->getWorkday()->format('d.m.Y');
     echo "Další pracovní den je:".$date->getWorkday(true)->format('d.m.Y');
-
+    
 // Něco pro e-shopy ;)
-    echo "Datum dopravy:".$date->getShippingTime()->format('d.m.Y');
-
-    echo "Datum dopravy v určitou hodinu a minutu:".$date->getShippingTime(14,20)->format('d.m.Y');
+    $date->setShippingTime(14, 20);
+    echo "Datum dopravy v určitou hodinu a minutu:".$date->getShippingDate()->format('d.m.Y');
+    
     /**
-    * $date->getShippingTime(14,20)
-    * Pátek 9:30 < 14:20 = Pondělí
-    * Pátek 14:30 > 14:20 = Středa (V pondělí se odesílá)
-    * atd...
-    **/
+     * $date->setShippingTime(14, 20);
+     * $date->getShippingDate
+     * Pátek 9:30 < 14:20 = Pondělí
+     * Pátek 14:30 > 14:20 = Středa (V pondělí se odesílá)
+     * etc...
+     **/
 ```
 
 Ukázka #1

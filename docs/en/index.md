@@ -24,15 +24,16 @@ Usage
     echo "Next workday:".$date->getWorkday(true)->format('d.m.Y');
 
 // Something for e-shops ;)
-    echo "Date for shipping:".$date->getShippingTime()->format('d.m.Y');
-
-    echo "Date for shipping to some Hour and minute:".$date->getShippingTime(14,20)->format('d.m.Y');
+    $date->setShippingTime(14, 20);
+    echo "Date for shipping to some Hour and minute:".$date->getShippingDate()->format('d.m.Y');
+    
     /**
-    * $date->getShippingTime(14,20)
-    * Friday 9:30 < 14:20 = Monday
-    * Friday 14:30 > 14:20 = Wednesday (Monday send)
-    * etc...
-    **/
+     * $date->setShippingTime(14, 20);
+     * $date->getShippingDate
+     * Friday 9:30 < 14:20 = Monday
+     * Friday 14:30 > 14:20 = Wednesday (Monday send)
+     * etc...
+     **/
 ```
 
 Example #1
