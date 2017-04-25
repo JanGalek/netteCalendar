@@ -139,6 +139,12 @@ class Calendar extends DateTime
         ['16', '0'],
     ];
 
+    private $shipping_time = [
+        'hour' => '16', 'minute' => '30'
+    ];
+
+    private $shippingWeekend = FALSE;
+
     const WORKTIME_START = 1,
           WORKTIME_END = 2;
 
@@ -237,6 +243,7 @@ class Calendar extends DateTime
     {
         return ($this->dayNumber() >= 6 || $this->dayNumber() == 0 ? TRUE : FALSE);
     }
+
     /**
      * Check Weekday
      * @return boolean
@@ -437,12 +444,21 @@ class Calendar extends DateTime
     }
 
     /**
-	 * Get formated date d.m.Y
-	 * @return type
+	 * Get format date d.m.Y
+	 * @return string
 	 */
     public function getDateFormat()
     {
         return $this->format('d.m.Y');
+    }
+
+    /**
+     * Get format date d.m.Y H:i:s
+     * @return string
+     */
+    public function getDateTimeFormat()
+    {
+        return $this->format('d.m.Y  H:i:s');
     }
 
 	/**
@@ -564,6 +580,7 @@ class Calendar extends DateTime
 
         return $this->velikonoceCalcDate($rok, $nedele1, $nedele2, $d, $e, $a);
     }
+
     /**
 	 * Checking Easter
 	 * @param type $rok
@@ -596,7 +613,6 @@ class Calendar extends DateTime
     }
 
     /**
-     *
      * @param \DateTime $date
      * @param integer $pad
      * @return string
@@ -606,22 +622,21 @@ class Calendar extends DateTime
         return $this->sklonovaniDny[$date->format('w')][$pad];
     }
 
-	/**
-	 * Get workday
-	 * @param array $worktime Set WorkTime
-	 * @param boolean $next Get next workday
-	 * @param \Galek\Utils\Calendar $date
-	 * @return \Galek\Utils\Calendar
-	 */
+    /**
+     * Get workday
+     * @param bool|Calendar|\DateTime|DateTime $next
+     * @param bool|Calendar $date
+     * @return bool|\DateTime|Calendar|DateTime
+     */
     public function getWorkDay($next = FALSE, $date = FALSE)
     {
     	if (!$date) {
             $date = $this;
         }
 
-        if ($next instanceof Calendar OR $next instanceof \DateTime OR $next instanceof \Nette\Utils\DateTime) {
+        if ($next instanceof Calendar OR $next instanceof \DateTime OR $next instanceof DateTime) {
             $date = $next;
-            $next = $false;
+            $next = FALSE;
         }
 
 		if ($next) {
@@ -630,12 +645,12 @@ class Calendar extends DateTime
 
 		if ($date->isWeekend()) {
   			if ($date->isSunday()) {
-    				$date->modify('+1 days');
+                $date->modify('+1 days');
   			} else {
-    				$date->modify('+2 days');
+                $date->modify('+2 days');
   			}
 		} elseif ($date->isHoliday()) {
-    			$date->modify('+1 days');
+            $date->modify('+1 days');
 		}
 
         if (!$this->isWorkDay($date)) {
@@ -645,13 +660,18 @@ class Calendar extends DateTime
 	    return $date;
     }
 
-    public function GetWorkDayLimit($worktime = TRUE, $date = FALSE)
+    /**
+     * @param bool $workTime
+     * @param bool $date
+     * @return bool|Calendar
+     */
+    public function GetWorkDayLimit($workTime = TRUE, $date = FALSE)
     {
         if (!$date) {
             $date = $this;
         }
 
-        if ($worktime == TRUE) {
+        if ($workTime == TRUE) {
             $limit = $this->getWorkTime();
             $sH = $limit[0][0];
             $sM = $limit[0][1];
@@ -659,7 +679,7 @@ class Calendar extends DateTime
             $eM = $limit[1][1];
 
             if ($this->timeBellow($eH, $eM) == FALSE) {
-                  $date->modify('+1 days');
+                $date->modify('+1 days');
             }
         }
 
@@ -670,9 +690,10 @@ class Calendar extends DateTime
     /**
      *
      * @param mixed $worktime    Work time in array () or hour of work time (int)
-     * @param int $startMinute [description]
-     * @param int $endHour     [description]
-     * @param int $endMinute   [description]
+     * @param int|boolean $startMinute [description]
+     * @param int|boolean $endHour     [description]
+     * @param int|boolean $endMinute   [description]
+     * @return Calendar
      * @throws \Exception
      */
     public function setWorkTime($worktime, $startMinute = FALSE, $endHour = FALSE, $endMinute = FALSE)
@@ -728,9 +749,15 @@ class Calendar extends DateTime
            throw new \Exception( "Try set bad value of end work time minute ('$endMinute'), use 0-59." );
         }
         $this->working_time = [ [(int) $startHour, (int) $startMinute], [(int) $endHour, (int) $endMinute] ];
-        //return $this->worktime_time;
+
+        return $this;
     }
 
+    /**
+     * @param bool $type
+     * @return array|mixed
+     * @throws \Exception
+     */
     public function getWorkTime($type = FALSE)
     {
         if ($type === FALSE) {
@@ -745,46 +772,93 @@ class Calendar extends DateTime
             return $this->working_time[1];
         }
 
-        throw new \Exception( "Value '$type' is not allowed, you can use (false, 1, 2)" );
+        throw new \Exception( "Value '$type' is not allowed, you can use (FALSE, 1, 2)" );
     }
 
- /**
+    /**
+     * Enable Shipping at weekend
+     * @return Calendar
+     */
+    public function enableShippingWeekend()
+    {
+        $this->shippingWeekend = TRUE;
+        return $this;
+    }
+
+    /**
+     * Disable Shipping at weekend
+     * @return Calendar
+     */
+    public function disableShippingWeekend()
+    {
+        $this->shippingWeekend = FALSE;
+        return $this;
+    }
+
+    /**
+     * Set Shipping time
+     * @param int $endHour
+     * @param int $endMinute
+     * @return Calendar
+     */
+    public function setShippingTime($endHour, $endMinute)
+    {
+        $this->shipping_time['hour'] = $endHour;
+        $this->shipping_time['minute'] = $endMinute;
+        return $this;
+    }
+
+    /**
+     * Get Shipping Date
+     * @return Calendar
+     */
+    public function getShippingDate()
+    {
+        $shippingTime = $this->shipping_time;
+        $hour = $shippingTime['hour'];
+        $minute = $shippingTime['minute'];
+
+        $date = clone $this;
+
+        if ($date->isFriday()) {
+            if ($date->timeOver($hour, $minute)) {
+                $date->modify('+1 days');
+            }
+            $date = $date->getWorkDay();
+        }
+
+        if (!$date->isWorkDay()) {
+            $date = $date->getWorkDay();
+        }
+        $date->modify('+' . $this->shippingtime . ' days');
+
+        $date = $date->getWorkDay();
+
+        return $date;
+    }
+
+    /**
 	 * Get Shipping time
-	 * @param int $hour default FALSE
+	 * @param int|boolean $hour default FALSE
 	 * @param int $minute default 0
-	 * @return type
+     * @deprecated Please Use setShippingTime and getShippingDate
+	 * @return Calendar
 	 */
     public function getShippingTime($hour = FALSE, $minute = 0)
     {
-    		$date = $this->getShippingTimeTest($hour, $minute);
-    		if ($date->isWeekend()) {
-      			$date->modify('+' . $this->shippingtime . ' days');
-    		}
-    		$date->getWorkDay(TRUE);
-
-    		return $date;
+        trigger_error('getShippingTime is deprecated, use setShippingTime($hour, $minute) and getShippingDate().', E_USER_DEPRECATED);
+        return $this->getShippingDate();
     }
     /**
      * Help for Shipping time
-     * @param int $hour
+     * @param int|boolean $hour
      * @param int $minute
-     * @return \Galek\Utils\Calendar
+     * @deprecated Please Use setShippingTime and getShippingDate
+     * @return Calendar
      */
- 	public function getShippingTimeTest($hour = FALSE, $minute = 0)
+ 	public function getShippingTimeTest($hour = FALSE, $minute = 0, $date = NULL)
     {
-    	$date = $this;
-        if ($date->isHoliday() AND !$date->isWeekend()) {
-			//$date->modify('+1 days');
-            $date->getWorkDay();
-        }
-    	if ($hour) {
-      		if (!$date->timeBellow($hour, $minute)) {
-        		$date->modify('+1 days');
-      		}
-      		if ($this->isFriday() || $this->isWeekend()) {
-        		$date->modify('+1 days');
-      		}
-    	}
-    	return $date;
+        trigger_error('getShippingTimeTest is deprecated, use setShippingTime($hour, $minute) and getShippingDate().', E_USER_DEPRECATED);
+        return $this->getShippingDate();
  	}
 }
