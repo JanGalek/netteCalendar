@@ -84,6 +84,13 @@ class DodaniTest extends CalendarTestCase
         $testTime10->setShippingTime(16, 20);
         $shipping = $testTime10->getShippingDate();
         Assert::equal('02.05.2016', $shipping->format('d.m.Y'), 'Time 15:25 to 16:20');
+
+        $testTime11 = new Calendar('25.4.2017 15:30');
+        Assert::equal(FALSE, $testTime11->timeBellow(15, 00), 'Time 15:30 bellow 15:00');
+
+        $testTime11->setShippingTime(15, 0);
+        $shipping = $testTime11->getShippingDate();
+        Assert::equal('27.04.2017', $shipping->format('d.m.Y'), 'Time 15:25 to 16:20');
     }
 
     public function testDodaniShipping2()
@@ -96,7 +103,7 @@ class DodaniTest extends CalendarTestCase
 
         $testTime1->setShippingTime(10, 0);
         $shipping = $testTime1->getShippingDate();
-        Assert::equal('20.04.2017', $shipping->format('d.m.Y'), 'Time 11:00 to 10:00');
+        Assert::equal('21.04.2017', $shipping->format('d.m.Y'), 'Time 11:00 to 10:00');
 
         $testTime2 = new Calendar('21.4.2017 11:00');
         $testTime2->setShippingTime(10, 0);
