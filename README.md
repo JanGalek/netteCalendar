@@ -64,3 +64,8 @@ Usage
     * etc...
     **/
 ```
+
+Documentation
+-------------
+
+Learn more in the [documentation](https://github.com/JanGalek/netteCalendar/blob/master/docs/en/index.md) and [czech version of documentation](https://github.com/JanGalek/netteCalendar/blob/master/docs/cs/index.md).
