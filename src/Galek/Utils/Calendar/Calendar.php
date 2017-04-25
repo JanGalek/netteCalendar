@@ -824,15 +824,21 @@ class Calendar extends DateTime
             if ($date->timeOver($hour, $minute)) {
                 $date->modify('+1 days');
             }
-            $date = $date->getWorkDay();
+
+            if (!$this->shippingWeekend) {
+                $date = $date->getWorkDay();
+            }
         }
 
         if (!$date->isWorkDay()) {
-            $date = $date->getWorkDay();
+            if (!$this->shippingWeekend) {
+                $date = $date->getWorkDay();
+            }
         }
         $date->modify('+' . $this->shippingtime . ' days');
-
-        $date = $date->getWorkDay();
+        if (!$this->shippingWeekend) {
+            $date = $date->getWorkDay();
+        }
 
         return $date;
     }
