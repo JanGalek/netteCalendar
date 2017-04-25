@@ -97,6 +97,29 @@ class DodaniTest extends CalendarTestCase
         $testTime1->setShippingTime(10, 0);
         $shipping = $testTime1->getShippingDate();
         Assert::equal('20.04.2017', $shipping->format('d.m.Y'), 'Time 11:00 to 10:00');
+
+        $testTime2 = new Calendar('21.4.2017 11:00');
+        $testTime2->setShippingTime(10, 0);
+        $testTime2->enableShippingWeekend();
+        $shipping = $testTime2->getShippingDate();
+        Assert::equal('23.04.2017', $shipping->format('d.m.Y'), 'Enabled Weekend shipping, Time 11:00 to 10:00');
+
+        $testTime2->setShippingTime(12, 0);
+        $shipping = $testTime2->getShippingDate();
+        Assert::equal('22.04.2017', $shipping->format('d.m.Y'), 'Enabled Weekend shipping, Time 11:00 to 12:00');
+
+
+        $testTime3 = new Calendar('21.4.2017 11:00');
+        $testTime3->setShippingDays(3);
+        $testTime3->setShippingTime(10, 0);
+        $testTime3->enableShippingWeekend();
+        $shipping = $testTime3->getShippingDate();
+        Assert::equal('25.04.2017', $shipping->format('d.m.Y'), 'Enabled Weekend shipping, Shipping days 3, Time 11:00 to 10:00');
+
+        $testTime3->setShippingDays(2);
+        $testTime3->setShippingTime(12, 0);
+        $shipping = $testTime3->getShippingDate();
+        Assert::equal('23.04.2017', $shipping->format('d.m.Y'), 'Enabled Weekend shipping, Shipping days 2, Time 11:00 to 12:00');
     }
 
     public function testShippingAnotherTime()
