@@ -208,7 +208,7 @@ class Calendar extends DateTime
      */
     public function getHour()
     {
-        return (int) $this->format("H");
+        return (int) $this->format("G");
     }
 
     /**
@@ -316,11 +316,9 @@ class Calendar extends DateTime
     public function isWorkTime()
     {
         if ($this->isWorkDay()) {
-            $endTime = $this->getWorkTime()[1];
-            if ($this->timeBellow($endTime[0], $endTime[1])) {
-                return TRUE;
-            }
-            return FALSE;
+            $startTime = $this->getWorkTime(1);
+            $endTime = $this->getWorkTime(2);
+            return $this->timeBetween($startTime[0], $startTime[1], $endTime[0], $endTime[1]);
         }
 
         return FALSE;
@@ -380,15 +378,53 @@ class Calendar extends DateTime
     public function timeBellow($hour, $minute = 0)
     {
         if ($this->getHour() <= $hour) {
-            if ($this->getHour() == $hour) {
-                if ($this->getMinute() <= $minute) {
-                    return TRUE;
-                }
-            } else {
-                return TRUE;
-            }
+            return ($this->getHour() == $hour ? ($this->getMinute() <= $minute) : TRUE);
         }
         return FALSE;
+    }
+
+    /**
+     * Check Time over
+     * @param int $hour
+     * @param int $minute
+     * @return bool
+     */
+    public function timeOver($hour, $minute = 0)
+    {
+        if ($this->getHour() >= $hour) {
+            return ($this->getHour() == $hour ? ($this->getMinute() >= $minute) : TRUE);
+        }
+        return FALSE;
+    }
+
+    /**
+     * @param int $firstHour
+     * @param int $firstMinute
+     * @param int $lastHour
+     * @param int $lastMinute
+     * @return bool
+     */
+    public function timeBetween($firstHour, $firstMinute, $lastHour, $lastMinute)
+    {
+        if ($firstHour > $lastHour) {
+            $date = $this->getDay() . '.' . $this->getMon() . '.' . $this->getYear();
+
+            $firstDate = new Calendar($date . ' ' . $firstHour . ':' . $firstMinute);
+            $lastDate = new Calendar($date . ' ' . $lastHour . ':' . $lastMinute);
+            $lastDate->modify('+1 day');
+
+            if ($this->getTimestamp() >= $firstDate->getTimestamp()) {
+                if ($this <= $lastDate) {
+                    return TRUE;
+                }
+            } elseif ($this <= $lastDate) {
+                return TRUE;
+            }
+
+            return FALSE;
+        }
+
+        return ($this->timeBellow($lastHour, $lastMinute) ? $this->timeOver($firstHour, $firstMinute) : FALSE);
     }
 
     /**
