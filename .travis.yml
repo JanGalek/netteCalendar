@@ -2,49 +2,14 @@ sudo: true
 language: php
 
 php:
-  - 5.3.3
-  - 5.4
-  - 5.5
-  - 5.6
   - 7.0
   - 7.1
   - 7.2
-  - hhvm
-
-env:
-  - TESTER_PHP_BIN="php-cgi"
-  - TESTER_PHP_BIN="hhvm"
 
 matrix:
   allow_failures:
-    - php: hhvm
-    - php: 5.3.3
-    - php: 5.5
     - php: 7.1
     - php: 7.2
-
-  exclude:
-
-    - php: 5.3.3
-      env: TESTER_PHP_BIN="hhvm"
-
-    - php: 5.4
-      env: TESTER_PHP_BIN="hhvm"
-
-    - php: 5.5
-      env: TESTER_PHP_BIN="hhvm"
-
-    - php: 5.6
-      env: TESTER_PHP_BIN="hhvm"
-
-    - php: 7.0
-      env: TESTER_PHP_BIN="hhvm"
-
-    - php: hhvm
-      env: TESTER_PHP_BIN="php-cgi"
-
-services:
-  - redis-server
 
 before_install:
   - composer self-update
@@ -53,7 +18,7 @@ install:
   - composer install --no-interaction --prefer-source
 
 script:
-  - ./vendor/bin/tester -p $TESTER_PHP_BIN -s ./tests/
+  - ./vendor/bin/tester -p php-cgi tests
 #  - ./vendor/bin/tester -p $TESTER_PHP_BIN -c ./tests/GalekTests/Socials/php.ini -s ./tests/
 
 after_failure:
