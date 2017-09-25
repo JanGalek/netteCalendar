@@ -4,13 +4,13 @@
     "license": "GPL-3.0",
     "authors": [
         {
-	  "name": "Jan Galek",
-	  "email": "admin@gcore.cz"
+          "name": "Jan Galek",
+          "email": "admin@gcore.cz"
         }
     ],
     "autoload": {
         "psr-4": {
-	  "Galek\\Utils\\": "src/Galek/Utils/Calendar/"
+	        "Galek\\Utils\\": "src/Galek/Utils/Calendar/"
         }
     },
     "require": {
@@ -20,5 +20,6 @@
     "require-dev": {
         "nette/tester": "^2.0",
         "tracy/tracy": "^2.4"
-    }
+    },
+    "minimum-stability": "dev"
 }
