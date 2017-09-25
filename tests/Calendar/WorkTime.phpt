@@ -5,14 +5,17 @@ require_once __DIR__ . '/CalendarTestCase.php';
 use Tester\Assert;
 use Galek\Utils\Calendar;
 
+/**
+ * @testCase
+ */
 class WorkTimeTest extends CalendarTestCase
 {
     public function test01()
     {
         $date = new Calendar();
         $date->setWorkTime(8, 0, 16, 30);
-        $worktime = $date->getWorkTime();
-        Assert::equal([[8,0],[16,30]], $worktime, 'Get Work Time in params');
+        $workTime = $date->getWorkTime();
+        Assert::equal([[8,0],[16,30]], $workTime, 'Get Work Time in params');
     }
 
     public function test02()

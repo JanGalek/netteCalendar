@@ -3,6 +3,9 @@
 $container = require __DIR__ . '/../../vendor/autoload.php';
 require __DIR__ . '/../../src/Galek/Utils/Calendar/Calendar.php';
 
+/**
+ * @testCase
+ */
 abstract class CalendarTestCase extends Tester\TestCase
 {
 

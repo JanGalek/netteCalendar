@@ -1,7 +1,10 @@
 <?php
+declare(strict_types=1);
 
 namespace Galek\Utils;
-use \Nette\Utils\DateTime;
+
+
+use Nette\Utils\DateTime;
 
 date_default_timezone_set('Europe/Prague');
 
@@ -149,10 +152,10 @@ class Calendar extends DateTime
           WORKTIME_END = 2;
 
     /**
-     * @param $time [optional]
+     * @param string $time [optional]
      * @param $object [optional]
      */
-    public function __construct($time = null, $object = null)
+    public function __construct($time = 'now', $object = null)
     {
         parent::__construct($time, $object);
 
