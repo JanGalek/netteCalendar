@@ -820,8 +820,7 @@ class Calendar extends DateTime
 
         $date = clone $this;
 
-        //if ($date->isFriday()) {
-        if ($date->isWorkDay()) {
+        if ($date->isFriday()) {
             if ($date->timeOver($hour, $minute)) {
                 $date->modify('+1 days');
             }
