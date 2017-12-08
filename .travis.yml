@@ -22,7 +22,7 @@ matrix:
   allow_failures:
     - env:
     - php: 7.1
-      env: COMPOSER_EXTRA_ARGS="--prefer-stable" COVERAGE="--coverage ./coverage.xml --coverage-src ./src"
+      env: COMPOSER_EXTRA_ARGS="-c tests/php.ini --prefer-stable" COVERAGE="--coverage ./coverage.xml --coverage-src ./src"
     - php: 7.2
 
 before_install:
