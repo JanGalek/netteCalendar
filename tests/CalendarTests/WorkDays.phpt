@@ -105,6 +105,7 @@ class WorkDaysTest extends \Tester\TestCase
         Assert::equal(FALSE, $date->isSunday(),'Start is Sunday ?');
         Assert::equal(FALSE, $date->isHoliday(),'Start is holday ?');
         Assert::equal(FALSE, $date->isWeekend(),'Start is weekend ?');
+        Assert::equal(TRUE, $date->isWeekday(),'Start is weekend ?');
         Assert::equal(TRUE, $date->isWorkDay(),'Start is workday ?');
 
         $date->getWorkDay();

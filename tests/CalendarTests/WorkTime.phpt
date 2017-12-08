@@ -81,7 +81,7 @@ class WorkTimeTest extends \Tester\TestCase
         Assert::equal(TRUE, $date5->isWorkTime());
 
         $date5->setWorkTime(9, 0, 16, 30);
-        Assert::equal(false, $date5->isWorkTime());
+        Assert::equal(FALSE, $date5->isWorkTime());
 
         $date6 = new Calendar('25.4.2017 08:02');
         $date6->setWorkTime(23, 0, 9, 30);
