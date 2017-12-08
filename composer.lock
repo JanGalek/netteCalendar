@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "05bc2e1d710a7feb1b69c603355a6a07",
+    "content-hash": "a3a983a302230b18b04c659257d53bb9",
     "packages": [
         {
             "name": "nette/utils",
-            "version": "v3.0.0-beta2",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/utils.git",
-                "reference": "eed59a3a5baffd431a60d4d5cd0776e246689f43"
+                "reference": "72e243669811e71b917cf063a85c87d5e8f94ccb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/utils/zipball/eed59a3a5baffd431a60d4d5cd0776e246689f43",
-                "reference": "eed59a3a5baffd431a60d4d5cd0776e246689f43",
+                "url": "https://api.github.com/repos/nette/utils/zipball/72e243669811e71b917cf063a85c87d5e8f94ccb",
+                "reference": "72e243669811e71b917cf063a85c87d5e8f94ccb",
                 "shasum": ""
             },
             "require": {
@@ -33,7 +33,7 @@
             "suggest": {
                 "ext-gd": "to use Image",
                 "ext-iconv": "to use Strings::webalize() and toAscii()",
-                "ext-intl": "for script transliteration in Strings::webalize() and toAscii()",
+                "ext-intl": "to use Strings::webalize(), toAscii(), normalize() and compare()",
                 "ext-json": "to use Nette\\Utils\\Json",
                 "ext-mbstring": "to use Strings::lower() etc...",
                 "ext-xml": "to use Strings::length() etc. when mbstring is not available"
@@ -83,22 +83,22 @@
                 "utility",
                 "validation"
             ],
-            "time": "2017-07-21T18:53:58+00:00"
+            "time": "2017-11-24T17:18:29+00:00"
         }
     ],
     "packages-dev": [
         {
             "name": "nette/tester",
-            "version": "v2.0.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/tester.git",
-                "reference": "ee0ad514d66409037a0e72fe798112fd8cdae92e"
+                "reference": "8cf24cf8c07defa85de7e2543c92db7bd3ded5a0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/tester/zipball/ee0ad514d66409037a0e72fe798112fd8cdae92e",
-                "reference": "ee0ad514d66409037a0e72fe798112fd8cdae92e",
+                "url": "https://api.github.com/repos/nette/tester/zipball/8cf24cf8c07defa85de7e2543c92db7bd3ded5a0",
+                "reference": "8cf24cf8c07defa85de7e2543c92db7bd3ded5a0",
                 "shasum": ""
             },
             "require": {
@@ -147,20 +147,20 @@
                 "testing",
                 "unit"
             ],
-            "time": "2017-08-22T06:46:57+00:00"
+            "time": "2017-09-26T11:21:20+00:00"
         },
         {
             "name": "tracy/tracy",
-            "version": "v2.4.9",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/tracy.git",
-                "reference": "efe45da0aa3a50ce5356be39f2168d7925d94f3d"
+                "reference": "42981093bf19df4571e9be3c38f724d9a8a5f025"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/tracy/zipball/efe45da0aa3a50ce5356be39f2168d7925d94f3d",
-                "reference": "efe45da0aa3a50ce5356be39f2168d7925d94f3d",
+                "url": "https://api.github.com/repos/nette/tracy/zipball/42981093bf19df4571e9be3c38f724d9a8a5f025",
+                "reference": "42981093bf19df4571e9be3c38f724d9a8a5f025",
                 "shasum": ""
             },
             "require": {
@@ -214,16 +214,16 @@
                 "nette",
                 "profiler"
             ],
-            "time": "2017-08-16T17:13:36+00:00"
+            "time": "2017-11-28T23:00:39+00:00"
         }
     ],
     "aliases": [],
-    "minimum-stability": "stable",
-    "stability-flags": {
-        "nette/utils": 10
-    },
+    "minimum-stability": "dev",
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
-    "platform": [],
+    "platform": {
+        "php": ">= 7.0"
+    },
     "platform-dev": []
 }

@@ -22,13 +22,17 @@ script:
 
 after_failure:
   # Vytiskne obsah souborů *.actual
-  - for i in $(find ./tests -name \*.actual); do echo "--- $i"; cat $i; echo; echo; done
+  - for i in $(find tests -name \*.actual); do echo "--- $i"; cat $i; echo; echo; done
 
 jobs:
   include:
+    - env: title="Lowest Dependencies"
+      install:
+        - travis_retry composer update --no-progress --prefer-dist --prefer-lowest --prefer-stable
+
     - stage: "Code Coverage"
       script:
-        - vendor/bin/tester -p phpdbg tests -s --coverage ./coverage.xml --coverage-src ./src
+        - vendor/bin/tester tests -s --coverage ./coverage.xml --coverage-src ./src
       after_script:
         - wget https://github.com/satooshi/php-coveralls/releases/download/v1.0.1/coveralls.phar
         - php coveralls.phar --verbose --config tests/.coveralls.yml
