@@ -5,6 +5,8 @@
 [![Latest Stable Version](https://poser.pugx.org/galek/nette-calendar/v/stable)](https://packagist.org/packages/galek/nette-calendar)
 [![License](https://poser.pugx.org/galek/nette-calendar/license)](https://packagist.org/packages/galek/nette-calendar)
 [![Monthly Downloads](https://poser.pugx.org/galek/nette-calendar/d/monthly)](https://packagist.org/packages/galek/nette-calendar)
+[![Coverage Status](https://coveralls.io/repos/github/JanGalek/netteCalendar/badge.svg?branch=master)](https://coveralls.io/github/JanGalek/netteCalendar?branch=master)
+
 
 Extend Nette\Utils\DateTime() for Nette framework
 

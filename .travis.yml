@@ -1,4 +1,3 @@
-sudo: true
 language: php
 
 php:
@@ -6,21 +5,46 @@ php:
   - 7.1
   - 7.2
 
+env:
+  - # dev
+  - COMPOSER_EXTRA_ARGS="--prefer-stable"
+  - COMPOSER_EXTRA_ARGS="--prefer-lowest --prefer-stable"
+
 matrix:
-  allow_failures:
+  fast_finish: true
+  include:
     - php: 7.1
+      env: COMPOSER_EXTRA_ARGS="--prefer-stable" COVERAGE="--coverage ./coverage.xml --coverage-src ./src" TESTER_RUNTIME="phpdbg"
+  exclude:
+    - php: 7.1
+      env: COMPOSER_EXTRA_ARGS="--prefer-stable"
+
+  allow_failures:
+    - env:
+    - php: 7.1
+      env: COMPOSER_EXTRA_ARGS="--prefer-stable" COVERAGE="--coverage ./coverage.xml --coverage-src ./src" TESTER_RUNTIME="phpdbg"
     - php: 7.2
 
 before_install:
-  - composer self-update
+    # turn off XDebug
+    - phpenv config-rm xdebug.ini || return 0
 
 install:
-  - composer install --no-interaction --prefer-source
+  - travis_retry composer update --no-interaction --no-suggest --no-progress --prefer-dist $COMPOSER_EXTRA_ARGS
+  - if [ "$COVERAGE" != "" ]; then travis_retry wget -O /tmp/coveralls.phar https://github.com/satooshi/php-coveralls/releases/download/v1.0.1/coveralls.phar; fi
 
 script:
-  - ./vendor/bin/tester -p php-cgi tests
-#  - ./vendor/bin/tester -p $TESTER_PHP_BIN -c ./tests/GalekTests/Socials/php.ini -s ./tests/
+  - vendor/bin/tester $COVERAGE -s -p ${TESTER_RUNTIME:-php} ./tests
+
+after_script:
+  - if [ "$COVERAGE" != "" ]; then php /tmp/coveralls.phar --verbose --config tests/.coveralls.yml || true; fi
 
 after_failure:
   # Vytiskne obsah souborů *.actual
-  - for i in $(find ./tests -name \*.actual); do echo "--- $i"; cat $i; echo; echo; done
+  - for i in $(find tests -name \*.actual); do echo "--- $i"; cat $i; echo; echo; done
+
+
+sudo: false
+
+notifications:
+  email: false
