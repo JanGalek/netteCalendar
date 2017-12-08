@@ -14,7 +14,7 @@ matrix:
   fast_finish: true
   include:
     - php: 7.1
-      env: COMPOSER_EXTRA_ARGS="--prefer-stable" COVERAGE="--coverage ./coverage.xml --coverage-src ./src"
+      env: COMPOSER_EXTRA_ARGS="--prefer-stable" COVERAGE="-c tests/php.ini --coverage ./coverage.xml --coverage-src ./src"
   exclude:
     - php: 7.1
       env: COMPOSER_EXTRA_ARGS="--prefer-stable"
