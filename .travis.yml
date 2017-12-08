@@ -1,4 +1,3 @@
-sudo: true
 language: php
 
 php:
@@ -12,22 +11,32 @@ matrix:
     - php: 7.2
 
 before_install:
+  - phpenv config-rm xdebug.ini || return 0
   - composer self-update
 
 install:
-  - composer install --no-interaction --prefer-source
+  - travis_retry composer install --no-progress --prefer-dist
 
 script:
-  - ./vendor/bin/tester -p php-cgi tests
-#  - ./vendor/bin/tester -p $TESTER_PHP_BIN -c ./tests/GalekTests/Socials/php.ini -s ./tests/
+  - vendor/bin/tester tests -s
 
 after_failure:
   # Vytiskne obsah souborů *.actual
   - for i in $(find ./tests -name \*.actual); do echo "--- $i"; cat $i; echo; echo; done
 
-after_script:
-    - if [ "$TRAVIS_PHP_VERSION" == "7.0" ]; then
-      wget https://github.com/satooshi/php-coveralls/releases/download/v1.0.1/coveralls.phar
-      && php coveralls.phar --verbose --config tests/.coveralls.yml
-      || true;
-      fi
+jobs:
+  include:
+    - stage: "Code Coverage"
+      script:
+        - vendor/bin/tester -p phpdbg tests -s --coverage ./coverage.xml --coverage-src ./src
+      after_script:
+        - wget https://github.com/satooshi/php-coveralls/releases/download/v1.0.1/coveralls.phar
+        - php coveralls.phar --verbose --config tests/.coveralls.yml
+
+  allow_failures:
+    - stage: "Code Coverage"
+
+sudo: false
+
+notifications:
+  email: false
