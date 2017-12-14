@@ -213,7 +213,39 @@ class WorkDaysTest extends \Tester\TestCase
         Assert::equal('08.07.2016', $date->format('d.m.Y'), 'dalsi pracovni den 3');
     }
 
+
+    public function testWorkDayNumber()
+    {
+        $date = new Calendar();
+        Assert::equal(22, $date->getWorkDayNumberInMonth(1, 2017), 'Work day number');
+        Assert::equal(20, $date->getWorkDayNumberInMonth(2, 2017), 'Work day number');
+        Assert::equal(23, $date->getWorkDayNumberInMonth(3, 2017), 'Work day number');
+        Assert::equal(18, $date->getWorkDayNumberInMonth(4, 2017), 'Work day number');
+        Assert::equal(21, $date->getWorkDayNumberInMonth(5, 2017), 'Work day number');
+        Assert::equal(22, $date->getWorkDayNumberInMonth(6, 2017), 'Work day number');
+        Assert::equal(19, $date->getWorkDayNumberInMonth(7, 2017), 'Work day number');
+        Assert::equal(23, $date->getWorkDayNumberInMonth(8, 2017), 'Work day number');
+        Assert::equal(20, $date->getWorkDayNumberInMonth(9, 2017), 'Work day number');
+        Assert::equal(22, $date->getWorkDayNumberInMonth(10, 2017), 'Work day number');
+        Assert::equal(21, $date->getWorkDayNumberInMonth(11, 2017), 'Work day number');
+        Assert::equal(19, $date->getWorkDayNumberInMonth(12, 2017), 'Work day number');
+    }
+
+
+    public function testSetPartOfDate()
+    {
+        $date = new Calendar();
+        $date->setDay(14);
+        $date->setYear(2017);
+        $date->setMonth(12);
+        Assert::equal('2017-12-14', $date->format('Y-m-d'), 'set part of date');
+
+        $date->setDay(9);
+        $date->setYear(2016);
+        $date->setMonth(3);
+        Assert::equal('2016-03-09', $date->format('Y-m-d'), 'set part of date');
+    }
+
 }
 
-$testCase = new WorkDaysTest();
-$testCase->run();
+(new WorkDaysTest())->run();

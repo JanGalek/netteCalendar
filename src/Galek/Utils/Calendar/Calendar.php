@@ -175,6 +175,24 @@ class Calendar extends DateTime
   		$this->shippingtime = (int) $shippingtime;
 	}
 
+
+    public function setYear($year)
+    {
+        $this->setDate($year, $this->getMonth(), $this->getDay());
+    }
+
+
+	public function setMonth($month)
+    {
+        $this->setDate($this->getYear(), $month, $this->getDay());
+    }
+
+
+    public function setDay($day)
+    {
+        $this->setDate($this->getYear(), $this->getMonth(), $day);
+    }
+
 	/**
 	 * Get number of days to delivery
 	 * @return int
@@ -199,7 +217,16 @@ class Calendar extends DateTime
      */
     public function getMon()
     {
-        return (int) $this->format("m");
+        return (int) $this->format('m');
+    }
+
+    /**
+     * Get Month
+     * @return int
+     */
+    public function getMonth()
+    {
+        return $this->getMon();
     }
 
     /**
@@ -341,11 +368,11 @@ class Calendar extends DateTime
     public function isHoliday()
     {
         $date = $this;
-        if ($this->getEasterMonday()->diff($this)->days == 0) {
+        if ($this->getEasterMonday()->format('Y-m-d') === $date->format('Y-m-d')) {
             return TRUE;
         }
 
-        if ($this->getBigFriday()->diff($this)->days == 0) {
+        if ($this->getBigFriday()->format('Y-m-d') === $date->format('Y-m-d')) {
             return TRUE;
         }
 
@@ -358,6 +385,8 @@ class Calendar extends DateTime
         }
         return FALSE;
     }
+
+
     /**
     * Check if is Workday
     * @return boolean
@@ -377,6 +406,30 @@ class Calendar extends DateTime
     		return FALSE;
     	}
     	return TRUE;
+    }
+
+
+    public function getDaysInMonth(int $year, int $month)
+    {
+        return cal_days_in_month(CAL_GREGORIAN, $month, $year);
+    }
+
+
+    public function getWorkDayNumberInMonth(int $month, int $year)
+    {
+        $date = new Calendar();
+        $date->setDate($year, $month, 1);
+
+        $number = 0;
+
+        for ($i = 1; $i <= $this->getDaysInMonth($year, $month); $i++) {
+            $date->setDay($i);
+            if ($date->isWorkDay()) {
+                $number++;
+            }
+        }
+
+        return $number;
     }
 
     /**
