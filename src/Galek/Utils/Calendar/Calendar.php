@@ -417,12 +417,23 @@ class Calendar extends DateTime
 
     public function getWorkDayNumberInMonth(int $month, int $year)
     {
+        return $this->getWorkDayNumberInMonthTo($month, $year, $this->getDaysInMonth($year, $month));
+    }
+
+
+    public function getWorkDayNumberInMonthTo(int $month, int $year, int $day)
+    {
+        $dayCount = $this->getDaysInMonth($year, $month);
+        if ($day > $dayCount) {
+            $day = $dayCount;
+        }
+
         $date = new Calendar();
         $date->setDate($year, $month, 1);
 
         $number = 0;
 
-        for ($i = 1; $i <= $this->getDaysInMonth($year, $month); $i++) {
+        for ($i = 1; $i <= $day; $i++) {
             $date->setDay($i);
             if ($date->isWorkDay()) {
                 $number++;

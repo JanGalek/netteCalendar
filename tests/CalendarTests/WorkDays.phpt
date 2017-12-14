@@ -232,6 +232,14 @@ class WorkDaysTest extends \Tester\TestCase
     }
 
 
+    public function testWorkDayNumberTo()
+    {
+        $date = new Calendar();
+        Assert::equal(7, $date->getWorkDayNumberInMonthTo(1, 2017, 10), 'Work day number to 10');
+        Assert::equal(22, $date->getWorkDayNumberInMonthTo(1, 2017, 64), 'Work day number to 10');
+    }
+
+
     public function testSetPartOfDate()
     {
         $date = new Calendar();
