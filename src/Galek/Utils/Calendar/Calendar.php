@@ -483,8 +483,6 @@ class Calendar extends DateTime
             } elseif ($this <= $lastDate) {
                 return TRUE;
             }
-
-            return FALSE;
         }
 
         return ($this->timeBellow($lastHour, $lastMinute) ? $this->timeOver($firstHour, $firstMinute) : FALSE);
@@ -514,7 +512,7 @@ class Calendar extends DateTime
      */
     public function getDateTimeFormat()
     {
-        return $this->format('d.m.Y  H:i:s');
+        return $this->format('d.m.Y H:i:s');
     }
 
 	/**
@@ -537,9 +535,8 @@ class Calendar extends DateTime
             $format = $werbs['<5>'] . ' ' . $diff . ' ' . $werbs['<5'];
         } elseif ($diff >= 5) {
             $format = $werbs['<5>'] . ' ' . $diff.' '. $werbs['>=5'];
-        } else {
-            return FALSE;
         }
+
         return $format;
     }
 
@@ -551,22 +548,12 @@ class Calendar extends DateTime
 	 */
     public function werbDif2($date = null, $date2 = null)
     {
-        $curDate = ($date ? $date : new \DateTime());
+		trigger_error('werbDif2 is deprecated, use werbDif($werb, $date).', E_USER_DEPRECATED);
         $date2 = ($date2 ? $date2 : $this->date);
-        $diff = $date2->diff($curDate)->days;
 
-        $werbs = (empty($werb) ? $this->difWerbs : $werb);
+        $werbs = $this->difWerbs;
 
-        if ($diff <= 2) {
-            $format = $werbs[$diff];
-        } elseif ($diff < 5) {
-            $format = $werbs['<5>'] . ' ' . $diff . ' ' . $werbs['<5'];
-        } elseif ($diff >= 5) {
-            $format = $werbs['<5>'] . ' ' . $diff . ' ' . $werbs['>=5'];
-        } else {
-            return FALSE;
-        }
-        return $format;
+        return $this->werbDif($werbs, $date2);
     }
 
 	/**
@@ -595,7 +582,7 @@ class Calendar extends DateTime
     /**
 	 * Is Big Friday (friday before Easter, Czech republic = Holiday) ?
 	 * @param bool|integer $rok
-	 * @return type
+	 * @return DateTime
 	 */
     public function getBigFriday($rok = FALSE)
     {
@@ -608,7 +595,7 @@ class Calendar extends DateTime
 	/**
 	 * Function for calculation Easter
 	 * @param boolean|integer $rok
-	 * @return type
+	 * @return boolean
 	 */
     private function getVelikonoce($rok = FALSE)
     {
@@ -619,6 +606,8 @@ class Calendar extends DateTime
         $a = ($rok % 19);	    // cyklus stejnych dnu
         $b = ($rok % 4);    // cyklus prestupnych roku
         $c = ($rok % 7);    // dorovnani dne v tydnu
+		$m = 1;
+		$n = 1;
 
         if ($rok >= '1800' AND $rok <='1899') {
             $m = 23;
@@ -649,24 +638,27 @@ class Calendar extends DateTime
 	 */
     private function velikonoceCalcDate($rok, $nedele1, $nedele2, $d, $e, $a)
     {
-        if ($nedele1 >= '22' and $nedele1 <= '31') {
-            $datum = $rok . '-03-' . $nedele1;
-        } elseif ($nedele2 == '25' && $d == '28' && $e == '6' && $a > 10) {
-            $datum = $rok . '-04-18';
-        } elseif ($nedele2 <= '25') {
-            $datum = $rok . '-04-';
-            if ($nedele2 <= 9) {
-                $datum .= '0';
-            }
-            $datum .= $nedele2;
-        } elseif ($nedele2 > 25) {
-            $datum = $rok . '-04-' . $nedele2 - 7;
-        } else {
-            return FALSE;
-        }
+		//if ($rok >= 1970 and $rok <= 2037) {
+			//return new Calendar(date('M-d-Y', easter_date($rok)));
+		//} else {
+			if ($nedele1 >= '22' and $nedele1 <= '31') {
+				$datum = $rok . '-03-' . $nedele1;
+			} elseif ($nedele2 == '25' && $d == '28' && $e == '6' && $a > 10) {
+				$datum = $rok . '-04-18';
+			} elseif ($nedele2 <= '25') {
+				$datum = $rok . '-04-';
+				if ($nedele2 <= 9) {
+					$datum .= '0';
+				}
+				$datum .= $nedele2;
+			} elseif ($nedele2 > 25) {
+				$datum = $rok . '-04-' . ($nedele2 - 7);
+			}
+		//}
 
         return new Calendar($datum);
     }
+
 
     /**
      * @param \DateTime $date
@@ -780,7 +772,7 @@ class Calendar extends DateTime
                 $endMinute = (int) $worktime[3];
             }
 
-        } elseif (is_int( (int) $worktime)) {
+        } elseif (is_numeric($worktime)) {
             $startHour = $worktime;
             $startMinute = (int) $startMinute;
             $endHour = (int) $endHour;

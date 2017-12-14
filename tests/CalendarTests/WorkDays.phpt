@@ -246,6 +246,14 @@ class WorkDaysTest extends \Tester\TestCase
         Assert::equal('2016-03-09', $date->format('Y-m-d'), 'set part of date');
     }
 
+
+	public function testWorkday11()
+	{
+		$date2 = new Calendar('07.07.2016 00:00');
+
+		Assert::equal($date2->format('d.m.Y'), $date2->getWorkDay((new Calendar('07.07.2016 00:00:00')))->format('d.m.Y'), 'WORKDAY pracovni den 1');
+	}
+
 }
 
 (new WorkDaysTest())->run();

@@ -49,6 +49,9 @@ class CalendarTest extends \Tester\TestCase
         Assert::equal('2016-03-27', $date2->getEaster()->format('Y-m-d'), 'Test Easter '.$date2->getYear().' ?');
         Assert::equal('2016-03-28', $date2->getEasterMonday()->format('Y-m-d'), 'Test Easter Monday '.$date2->getYear().' ?');
         Assert::equal('2016-03-25', $date2->getBigFriday()->format('Y-m-d'), 'Test Easter Big Friday '.$date2->getYear().' ?');
+
+		$date3 = new Calendar('01.05.1850 01:00');
+		Assert::equal('1850-03-31', $date3->getEaster()->format('Y-m-d'), 'Test Easter '.$date3->getYear().' ?');
   	}
 
   	public function testDifWerbs()
@@ -163,6 +166,39 @@ class CalendarTest extends \Tester\TestCase
         Assert::equal('03.05.2016', $date2->format('d.m.Y'), 'dneska pracovni den 4');
         Assert::equal(TRUE, $date2->isWorkDay());*/
       }
+
+	public function testSklonovani()
+	{
+		$date = new Calendar('2017-12-09 00:00:00');
+
+		Assert::equal('sobota', $date->sklonovaniDays($date),'sklonovani');
+	}
+
+	public function testFormat()
+	{
+		$date = new Calendar('2017-12-09 1:02:01');
+
+		Assert::equal($date->format('d.m.Y H:i:s'), $date->getDateTimeFormat(),'dateFormat');
+	}
+
+	public function testEaster()
+	{
+		$date = new Calendar('2017-04-16 0:00:00');
+
+		Assert::equal($date->format('d.m.Y'), $date->getEaster(2017)->format('d.m.Y'),'dateFormat');
+
+		$date2 = new Calendar('1969-04-06 0:00:00');
+		Assert::equal($date2->format('d.m.Y'), $date2->getEaster(1969)->format('d.m.Y'),'dateFormat');
+
+		$date2 = new Calendar('2035-03-25 0:00:00');
+		Assert::equal($date2->format('d.m.Y'), $date2->getEaster(2035)->format('d.m.Y'),'dateFormat');
+
+		$date2 = new Calendar('2006-04-16 0:00:00');
+		Assert::equal($date2->format('d.m.Y'), $date2->getEaster(2006)->format('d.m.Y'),'dateFormat');
+
+		$date2 = new Calendar('1981-04-19 0:00:00');
+		Assert::equal($date2->format('d.m.Y'), $date2->getEaster(1981)->format('d.m.Y'),'dateFormat');
+	}
 }
 
 (new CalendarTest())->run();

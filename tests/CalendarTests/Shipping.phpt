@@ -16,6 +16,14 @@ class ShippingTest extends \Tester\TestCase
         Assert::equal(3, $date->getShippingDays(), 'dneska pracovni den 1');
     }
 
+	public function testDay2()
+	{
+		$date = new Calendar(DATE_RELEASE . ' 14:02');
+		$date->disableShippingWeekend();
+		Assert::equal($date, $date);
+
+	}
+
 }
 
 $testCase = new ShippingTest();
