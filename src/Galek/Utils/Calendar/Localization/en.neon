@@ -67,6 +67,7 @@ difference:
 	fiveDays: 'days'
 
 holidays:
+	# month - day
 	- '01-01'
 	- '03-25'
 	- '05-01'

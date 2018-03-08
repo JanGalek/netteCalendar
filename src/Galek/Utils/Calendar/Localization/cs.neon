@@ -67,6 +67,7 @@ difference:
 	fiveDays: 'dnů'
 
 holidays:
+	# měsíc - den
 	- '01-01'
 	- '03-25'
 	- '05-01'
