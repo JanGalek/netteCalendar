@@ -20,6 +20,11 @@ class Localization
 	 */
 	private $local;
 
+	/**
+	 * @var array
+	 */
+	private $config;
+
 
 	public function __construct(string $local)
 	{
@@ -72,7 +77,12 @@ class Localization
 
 	private function loadConfig()
 	{
-		$file = __DIR__ . '/Localization/' . $this->local . '.neon';
-		return Neon::decode(file_get_contents($file), Neon::BLOCK);
+		if (!$this->config) {
+			$file = __DIR__ . '/Localization/' . $this->local . '.neon';
+
+			$this->config =  Neon::decode(file_get_contents($file), Neon::BLOCK);
+		}
+
+		return $this->config;
 	}
 }
