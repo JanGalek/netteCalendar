@@ -15,10 +15,6 @@ date_default_timezone_set('Europe/Prague');
  */
 class Calendar extends DateTime
 {
-
-    /** @var \DateTime */
-    private $curDate;
-
     /** @var \DateTime */
     public $date;
 
@@ -40,7 +36,7 @@ class Calendar extends DateTime
         'hour' => '16', 'minute' => '30'
     ];
 
-    private $shippingWeekend = FALSE;
+    private $shippingWeekend = false;
 
     const WORKTIME_START = 1,
           WORKTIME_END = 2;
@@ -66,20 +62,32 @@ class Calendar extends DateTime
     {
         parent::__construct($time, $object);
 
-        $this->curDate = new \DateTime();
-
-        if (!isset($this->date)) {
-            $this->date = $this->curDate;
+        if (null === $this->date) {
+            $this->date = new \DateTime();
         }
 
-		$this->localization = new Localization($localization);
-        $this->holidays = new Holidays($country);
+        $this->setLocalization($localization);
+        $this->setHolidays($country);
+	}
+
+
+	public function setHolidays(string $country)
+	{
+		$this->holidays = new Holidays($country);
+		return $this;
 	}
 
 
 	public function getHolidays()
 	{
 		return $this->holidays;
+	}
+
+
+	public function setLocalization(string $localization)
+	{
+		$this->localization = new Localization($localization);
+		return $this;
 	}
 
 
@@ -194,7 +202,7 @@ class Calendar extends DateTime
      */
     public function isWeekend()
     {
-        return ($this->dayNumber() >= 6 || $this->dayNumber() == 0 ? TRUE : FALSE);
+        return ($this->dayNumber() >= 6 || $this->dayNumber() === 0 ? true : false);
     }
 
     /**
@@ -212,7 +220,7 @@ class Calendar extends DateTime
      */
     public function isMonday()
     {
-        return ($this->dayNumber() == 1);
+        return ($this->dayNumber() === 1);
     }
 
     /**
@@ -221,7 +229,7 @@ class Calendar extends DateTime
      */
     public function isTuesday()
     {
-        return ($this->dayNumber() == 2);
+        return ($this->dayNumber() === 2);
     }
 
     /**
@@ -230,7 +238,7 @@ class Calendar extends DateTime
      */
     public function isWednesday()
     {
-        return ($this->dayNumber() == 3);
+        return ($this->dayNumber() === 3);
     }
 
     /**
@@ -239,7 +247,7 @@ class Calendar extends DateTime
      */
     public function isThursday()
     {
-        return ($this->dayNumber() == 4);
+        return ($this->dayNumber() === 4);
     }
 
     /**
@@ -248,7 +256,7 @@ class Calendar extends DateTime
      */
     public function isFriday()
     {
-        return ($this->dayNumber() == 5);
+        return ($this->dayNumber() === 5);
     }
 
     /**
@@ -257,7 +265,7 @@ class Calendar extends DateTime
      */
     public function isSaturday()
     {
-        return ($this->dayNumber() == 6);
+        return ($this->dayNumber() === 6);
     }
 
     /**
@@ -266,7 +274,7 @@ class Calendar extends DateTime
      */
     public function isSunday()
     {
-        return ($this->dayNumber() == 0);
+        return ($this->dayNumber() === 0);
     }
 
     /**
@@ -281,7 +289,7 @@ class Calendar extends DateTime
             return $this->timeBetween($startTime[0], $startTime[1], $endTime[0], $endTime[1]);
         }
 
-        return FALSE;
+        return false;
     }
 
     /**
@@ -290,24 +298,7 @@ class Calendar extends DateTime
      */
     public function isHoliday()
     {
-        $date = $this;
-
-        if ($this->holidays->allowedEaster() && $this->getEasterMonday()->format('Y-m-d') === $date->format('Y-m-d')) {
-            return TRUE;
-        }
-
-        if ($this->holidays->allowedGoodFriday() && $this->getBigFriday()->format('Y-m-d') === $date->format('Y-m-d')) {
-            return TRUE;
-        }
-
-        foreach ($this->holidays->getHolidays() as $holiday) {
-            $yearHoliday = $date->getYear() . '-' . $holiday;
-
-            if ($this->format('Y-m-d') === $yearHoliday) {
-                return TRUE;
-            }
-        }
-        return FALSE;
+        return $this->getHolidays()->isHoliday($this);
     }
 
 
@@ -315,21 +306,21 @@ class Calendar extends DateTime
     * Check if is Workday
     * @return boolean
     */
-    public function isWorkDay($date = FALSE)
+    public function isWorkDay($date = false)
     {
-        if ($date === FALSE) {
+        if ($date === false) {
             $testDate = $this;
         } else {
             $testDate = $date;
         }
 
     	if ($testDate->isHoliday()) {
-    		return FALSE;
+    		return false;
     	}
     	if ($testDate->isWeekend()) {
-    		return FALSE;
+    		return false;
     	}
-    	return TRUE;
+    	return true;
     }
 
 
@@ -373,12 +364,9 @@ class Calendar extends DateTime
      * @param int $minute format: 1,2,3,..9,10,...
      * @return boolean
      */
-    public function timeBellow($hour, $minute = 0)
+    public function timeBellow(int $hour, int $minute = 0)
     {
-        if ($this->getHour() <= $hour) {
-            return ($this->getHour() == $hour ? ($this->getMinute() <= $minute) : TRUE);
-        }
-        return FALSE;
+        return Time::bellow($this, $hour, $minute);
     }
 
     /**
@@ -387,12 +375,9 @@ class Calendar extends DateTime
      * @param int $minute
      * @return bool
      */
-    public function timeOver($hour, $minute = 0)
+    public function timeOver(int $hour, int $minute = 0)
     {
-        if ($this->getHour() >= $hour) {
-            return ($this->getHour() == $hour ? ($this->getMinute() >= $minute) : TRUE);
-        }
-        return FALSE;
+        return Time::over($this, $hour, $minute);
     }
 
     /**
@@ -402,25 +387,9 @@ class Calendar extends DateTime
      * @param int $lastMinute
      * @return bool
      */
-    public function timeBetween($firstHour, $firstMinute, $lastHour, $lastMinute)
+    public function timeBetween(int $firstHour, int $firstMinute, int $lastHour, int $lastMinute)
     {
-        if ($firstHour > $lastHour) {
-            $date = $this->getDay() . '.' . $this->getMon() . '.' . $this->getYear();
-
-            $firstDate = new Calendar($date . ' ' . $firstHour . ':' . $firstMinute);
-            $lastDate = new Calendar($date . ' ' . $lastHour . ':' . $lastMinute);
-            $lastDate->modify('+1 day');
-
-            if ($this->getTimestamp() >= $firstDate->getTimestamp()) {
-                if ($this <= $lastDate) {
-                    return TRUE;
-                }
-            } elseif ($this <= $lastDate) {
-                return TRUE;
-            }
-        }
-
-        return ($this->timeBellow($lastHour, $lastMinute) ? $this->timeOver($firstHour, $firstMinute) : FALSE);
+    	return Time::between($this, $firstHour, $firstMinute, $lastHour, $lastMinute);
     }
 
     /**
@@ -458,7 +427,7 @@ class Calendar extends DateTime
     public function werbDif($date = NULL)
     {
         $curDate = new Calendar();
-        $date2 = ($date ? $date : $this);
+        $date2 = ($date ?: $this);
         $diff = $date2->diff($curDate)->days;
 
 		$local = $this->localization->getDifference();
@@ -478,116 +447,36 @@ class Calendar extends DateTime
 
 	/**
 	 * Get Easter Monday
-	 * @param bool|integer $rok
-	 * @return DateTime
+	 * @param bool|int $year
+	 * @return Calendar
 	 */
-    public function getEasterMonday($rok = FALSE)
+    public function getEasterMonday($year = false)
     {
-        $velNe = $this->getVelikonoce($rok);
-        $day = DateTime::from($velNe);
-        $day->modify('+1 day');
-        return $day;
+    	$year = ($year === false ? $this->getYear() : $year);
+        return EasterHoliday::getMonday($year);
     }
 
 	/**
 	 * Get Easter
-	 * @param bool|integer $rok
-	 * @return type
+	 * @param bool|int $year
+	 * @return Calendar
 	 */
-    public function getEaster($rok = FALSE)
+    public function getEaster($year = false)
     {
-        return $this->getVelikonoce($rok);
+		$year = ($year === false ? $this->getYear() : $year);
+		return EasterHoliday::getEaster($year);
     }
 
 	/**
 	 * Is Big Friday (friday before Easter, Czech republic = Holiday) ?
-	 * @param bool|integer $year
-	 * @return DateTime
+	 * @param bool|int $year
+	 * @return Calendar
 	 */
-	public function getGoodFriday($year = FALSE)
+	public function getGoodFriday($year = false)
 	{
-		$velNe = $this->getVelikonoce($year);
-		$day = DateTime::from($velNe);
-		$day->modify('-2 day');
-		return $day;
+		$year = ($year === false ? $this->getYear() : $year);
+		return EasterHoliday::getGoodFriday($year);
 	}
-
-    /**
-	 * Is Big Friday (friday before Easter, Czech republic = Holiday) ?
-	 * @param bool|integer $year
-	 * @return DateTime
-	 */
-    public function getBigFriday($year = FALSE)
-    {
-        return $this->getGoodFriday($year);
-    }
-
-	/**
-	 * Function for calculation Easter
-	 * @param boolean|integer $rok
-	 * @return boolean
-	 */
-    private function getVelikonoce($rok = FALSE)
-    {
-        if (!$rok) {
-          $rok = $this->getYear();
-        }
-
-        $a = ($rok % 19);	    // cyklus stejnych dnu
-        $b = ($rok % 4);    // cyklus prestupnych roku
-        $c = ($rok % 7);    // dorovnani dne v tydnu
-		$m = 1;
-		$n = 1;
-
-        if ($rok >= '1800' AND $rok <='1899') {
-            $m = 23;
-            $n = 4;
-        } else if ($rok >= '1900' AND $rok <= '2099') {
-            $m = 24;
-            $n = 5;
-        }
-
-        $d = ( ( (19 * $a) + $m) % 30);
-        $e = ( ($n + (2 * $b) + (4 * $c) + (6 * $d) ) % 7);
-
-        $nedele1 = (22 + $d + $e);
-        $nedele2 = ($d + $e - 9);
-
-        return $this->velikonoceCalcDate($rok, $nedele1, $nedele2, $d, $e, $a);
-    }
-
-    /**
-	 * Checking Easter
-	 * @param type $rok
-	 * @param mixed $nedele1
-	 * @param mixed $nedele2
-	 * @param type $d
-	 * @param type $e
-	 * @param type $a
-	 * @return boolean
-	 */
-    private function velikonoceCalcDate($rok, $nedele1, $nedele2, $d, $e, $a)
-    {
-		//if ($rok >= 1970 and $rok <= 2037) {
-			//return new Calendar(date('M-d-Y', easter_date($rok)));
-		//} else {
-			if ($nedele1 >= '22' and $nedele1 <= '31') {
-				$datum = $rok . '-03-' . $nedele1;
-			} elseif ($nedele2 == '25' && $d == '28' && $e == '6' && $a > 10) {
-				$datum = $rok . '-04-18';
-			} elseif ($nedele2 <= '25') {
-				$datum = $rok . '-04-';
-				if ($nedele2 <= 9) {
-					$datum .= '0';
-				}
-				$datum .= $nedele2;
-			} elseif ($nedele2 > 25) {
-				$datum = $rok . '-04-' . ($nedele2 - 7);
-			}
-		//}
-
-        return new Calendar($datum);
-    }
 
 
     /**
@@ -606,15 +495,15 @@ class Calendar extends DateTime
      * @param bool|Calendar $date
      * @return bool|\DateTime|Calendar|DateTime
      */
-    public function getWorkDay($next = FALSE, $date = FALSE)
+    public function getWorkDay($next = false, $date = false)
     {
     	if (!$date) {
             $date = $this;
         }
 
-        if ($next instanceof Calendar OR $next instanceof \DateTime OR $next instanceof DateTime) {
+        if ($next instanceof \DateTime) {
             $date = $next;
-            $next = FALSE;
+            $next = false;
         }
 
 		if ($next) {
@@ -641,22 +530,22 @@ class Calendar extends DateTime
     /**
      * @param bool $workTime
      * @param bool $date
-     * @return bool|Calendar
+     * @return Calendar
      */
-    public function GetWorkDayLimit($workTime = TRUE, $date = FALSE)
+    public function GetWorkDayLimit($workTime = true, $date = false)
     {
         if (!$date) {
             $date = $this;
         }
 
-        if ($workTime == TRUE) {
+        if ($workTime === true) {
             $limit = $this->getWorkTime();
             $sH = $limit[0][0];
             $sM = $limit[0][1];
             $eH = $limit[1][0];
             $eM = $limit[1][1];
 
-            if ($this->timeBellow($eH, $eM) == FALSE) {
+            if ($this->timeBellow($eH, $eM) == false) {
                 $date->modify('+1 days');
             }
         }
@@ -674,11 +563,11 @@ class Calendar extends DateTime
      * @return Calendar
      * @throws \Exception
      */
-    public function setWorkTime($worktime, $startMinute = FALSE, $endHour = FALSE, $endMinute = FALSE)
+    public function setWorkTime($worktime, $startMinute = false, $endHour = false, $endMinute = false)
     {
-        if (is_array($worktime)) {
+        if (\is_array($worktime)) {
 
-            if (is_array($worktime[0])) {
+            if (\is_array($worktime[0])) {
 
                 $startHour = (int) $worktime[0][0];
                 $startMinute = (int) $worktime[0][1];
@@ -711,19 +600,19 @@ class Calendar extends DateTime
             throw new \Exception( "Value '$worktime' is not allowed, use array (full list) or int (hour)" );
         }
 
-        if ($startHour < 0 OR $startHour > 23) {
+        if ($startHour < 0 || $startHour > 23) {
            throw new \Exception( "Try set bad value of start work time hour ('$startHour'), use 0-23." );
         }
 
-        if ($endHour < 0 OR $endHour > 23) {
+        if ($endHour < 0 || $endHour > 23) {
            throw new \Exception( "Try set bad value of end work time hour ('$endHour'), use 0-23." );
         }
 
-        if ($startMinute < 0 OR $startMinute > 59) {
+        if ($startMinute < 0 || $startMinute > 59) {
            throw new \Exception( "Try set bad value of start work time minute ('$startMinute'), use 0-59." );
         }
 
-        if ($endMinute < 0 OR $endMinute > 59) {
+        if ($endMinute < 0 || $endMinute > 59) {
            throw new \Exception( "Try set bad value of end work time minute ('$endMinute'), use 0-59." );
         }
         $this->working_time = [ [(int) $startHour, (int) $startMinute], [(int) $endHour, (int) $endMinute] ];
@@ -736,21 +625,21 @@ class Calendar extends DateTime
      * @return array|mixed
      * @throws \Exception
      */
-    public function getWorkTime($type = FALSE)
+    public function getWorkTime($type = false)
     {
-        if ($type === FALSE) {
+        if ($type === false) {
             return $this->working_time;
         }
 
         $type = (int) $type;
 
-        if ($type == self::WORKTIME_START) {
+        if ($type === self::WORKTIME_START) {
             return $this->working_time[0];
-        } elseif ($type == self::WORKTIME_END) {
+        } elseif ($type === self::WORKTIME_END) {
             return $this->working_time[1];
         }
 
-        throw new \Exception( "Value '$type' is not allowed, you can use (FALSE, 1, 2)" );
+        throw new \Exception( "Value '$type' is not allowed, you can use (false, 1, 2)" );
     }
 
     /**
@@ -759,7 +648,7 @@ class Calendar extends DateTime
      */
     public function enableShippingWeekend()
     {
-        $this->shippingWeekend = TRUE;
+        $this->shippingWeekend = true;
         return $this;
     }
 
@@ -769,7 +658,7 @@ class Calendar extends DateTime
      */
     public function disableShippingWeekend()
     {
-        $this->shippingWeekend = FALSE;
+        $this->shippingWeekend = false;
         return $this;
     }
 

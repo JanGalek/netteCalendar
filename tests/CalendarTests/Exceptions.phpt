@@ -31,7 +31,7 @@ class ExceptionsTest extends \Tester\TestCase
 
 		Assert::exception(function () use($date) {
 			$date->getWorkTime(3);
-		}, Exception::class, 'Value \'3\' is not allowed, you can use (FALSE, 1, 2)');
+		}, Exception::class, 'Value \'3\' is not allowed, you can use (false, 1, 2)');
 
 		Assert::exception(function () use($date) {
 			$date->setWorkTime('t');

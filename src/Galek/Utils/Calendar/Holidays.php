@@ -70,4 +70,29 @@ class Holidays
 
 		return $this->config;
 	}
+
+
+	/**
+	 * @param Calendar $date
+	 * @return bool
+	 */
+	public function isHoliday(Calendar $date)
+	{
+		if ($this->allowedEaster() && EasterHoliday::getMonday($date->getYear())->format('Y-m-d') === $date->format('Y-m-d')) {
+			return true;
+		}
+
+		if ($this->allowedGoodFriday() && EasterHoliday::getGoodFriday($date->getYear())->format('Y-m-d') === $date->format('Y-m-d')) {
+			return true;
+		}
+
+		foreach ($this->getHolidays() as $holiday) {
+			$yearHoliday = $date->getYear() . '-' . $holiday;
+
+			if ($date->format('Y-m-d') === $yearHoliday) {
+				return true;
+			}
+		}
+		return false;
+	}
 }

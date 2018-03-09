@@ -48,7 +48,7 @@ class CalendarTest extends \Tester\TestCase
         //Easter
         Assert::equal('2016-03-27', $date2->getEaster()->format('Y-m-d'), 'Test Easter '.$date2->getYear().' ?');
         Assert::equal('2016-03-28', $date2->getEasterMonday()->format('Y-m-d'), 'Test Easter Monday '.$date2->getYear().' ?');
-        Assert::equal('2016-03-25', $date2->getBigFriday()->format('Y-m-d'), 'Test Easter Big Friday '.$date2->getYear().' ?');
+        Assert::equal('2016-03-25', $date2->getGoodFriday()->format('Y-m-d'), 'Test Easter Big Friday '.$date2->getYear().' ?');
 
 		$date3 = new Calendar('01.05.1850 01:00');
 		Assert::equal('1850-03-31', $date3->getEaster()->format('Y-m-d'), 'Test Easter '.$date3->getYear().' ?');
