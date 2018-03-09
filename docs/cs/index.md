@@ -1,5 +1,5 @@
 Použití
------
+-------
 
 ```php
     use \Galek\Utils\Calendar;

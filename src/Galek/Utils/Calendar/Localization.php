@@ -32,6 +32,12 @@ class Localization
 	}
 
 
+	public function getLocalization()
+	{
+		return $this->local;
+	}
+
+
 	public function getInflexion($day, int $inflexion)
 	{
 		return $this->getInflexionDay($day)[$inflexion];

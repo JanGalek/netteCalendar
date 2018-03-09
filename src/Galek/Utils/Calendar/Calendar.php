@@ -465,8 +465,6 @@ class Calendar extends DateTime
 			return $local['afterTomorrow'];
 		} elseif ($diff < 5) {
         	return $local['after'] . ' ' . $diff . ' ' . $local['twoDays'];
-        } elseif ($diff >= 5) {
-			return $local['after'] . ' ' . $diff . ' ' . $local['fiveDays'];
         }
 
 		return $local['after'] . ' ' . $diff . ' ' . $local['fiveDays'];
