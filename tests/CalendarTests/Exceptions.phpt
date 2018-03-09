@@ -37,23 +37,6 @@ class ExceptionsTest extends \Tester\TestCase
 			$date->setWorkTime('t');
 		}, Exception::class, 'Value \'t\' is not allowed, use array (full list) or int (hour)');
     }
-
-
-	public function test02()
-	{
-		$date = new Calendar();
-		Assert::error(function () use($date) {
-			$date->getShippingTime();
-		}, E_USER_DEPRECATED, 'getShippingTime is deprecated, use setShippingTime($hour, $minute) and getShippingDate().');
-
-		Assert::error(function () use($date) {
-			$date->getShippingTimeTest();
-		}, E_USER_DEPRECATED, 'getShippingTimeTest is deprecated, use setShippingTime($hour, $minute) and getShippingDate().');
-
-		Assert::error(function () use($date) {
-			$date->werbDif2();
-		}, E_USER_DEPRECATED, 'werbDif2 is deprecated, use werbDif($werb, $date).');
-	}
 }
 
 $testCase = new ExceptionsTest();

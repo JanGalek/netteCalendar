@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace Galek\Utils;
 
-
 use Nette\Utils\DateTime;
 
 date_default_timezone_set('Europe/Prague');
@@ -24,95 +23,6 @@ class Calendar extends DateTime
 
   	/** @var int Number of days to delivery */
   	public $shippingtime = 1;
-
-    /**
-     *	Werbs for different between current Date and setted Date (@var $date)
-     * @example 0 today
-     * @example 1 tomorrow
-     * @example 2 after tomorrow
-     * @example <5> 'after'
-     * @example <5 X days
-     * @example >=5 X days
-     * @var array
-     */
-    public $difWerbs = [
-        '0' => 'dnes',
-        '1' => 'zítra',
-        '2' => 'pozítří',
-        '<5>' => 'za',
-        '<5' => 'dny',
-        '>=5' => 'dnů',
-    ];
-
-    public $sklonovani = [
-
-    ];
-
-    public $sklonovaniDny = [
-        0 => [
-            1 => 'neděle',
-            2 => 'neděle',
-            3 => 'neděli',
-            4 => 'neděli',
-            5 => 'neděle',
-            6 => 'neděli',
-            7 => 'nedělí',
-        ],
-        1 => [
-            1 => 'pondělí',
-            2 => 'pondělí',
-            3 => 'pondělí',
-            4 => 'pondělí',
-            5 => 'pondělí',
-            6 => 'pondělí',
-            7 => 'pondělí',
-        ],
-        2 => [
-            1 => 'úterý',
-            2 => 'úterý',
-            3 => 'úterý',
-            4 => 'úterý',
-            5 => 'úterý',
-            6 => 'úterý',
-            7 => 'úterý',
-        ],
-        3 => [
-            1 => 'středa',
-            2 => 'středy',
-            3 => 'středě',
-            4 => 'středu',
-            5 => 'středo',
-            6 => 'středě',
-            7 => 'středou',
-        ],
-        4 => [
-            1 => 'čtvrtek',
-            2 => 'čtvrtku',
-            3 => 'čtvrtku',
-            4 => 'čtvrtek',
-            5 => 'čtvrtku',
-            6 => 'čtvrtku',
-            7 => 'čtvrtkem',
-        ],
-        5 => [
-            1 => 'pátek',
-            2 => 'pátku',
-            3 => 'pátku',
-            4 => 'pátek',
-            5 => 'pátku',
-            6 => 'pátku',
-            7 => 'pátkem',
-        ],
-        6 => [
-            1 => 'sobota',
-            2 => 'soboty',
-            3 => 'sobotě',
-            4 => 'sobotu',
-            5 => 'sobota',
-            6 => 'sobotě',
-            7 => 'sobotou',
-        ],
-    ];
 
 
     /** @var array */
@@ -151,11 +61,18 @@ class Calendar extends DateTime
     const WORKTIME_START = 1,
           WORKTIME_END = 2;
 
-    /**
+	/**
+	 * @var Localization
+	 */
+	private $localization;
+
+
+	/**
      * @param string $time [optional]
      * @param $object [optional]
+	 * @param string $localization
      */
-    public function __construct($time = 'now', $object = null)
+    public function __construct($time = 'now', $object = null, $localization = 'cs')
     {
         parent::__construct($time, $object);
 
@@ -164,7 +81,8 @@ class Calendar extends DateTime
         if (!isset($this->date)) {
             $this->date = $this->curDate;
         }
-    }
+		$this->localization = new Localization($localization);
+	}
 
 	/**
 	 * Set number of days to delivery
@@ -528,43 +446,30 @@ class Calendar extends DateTime
 
 	/**
 	 * Get different between today and $date by world
-	 * @param array $werb
 	 * @param null|DateTime $date
 	 * @return boolean|string
 	 */
-    public function werbDif($werb = [], $date = NULL)
+    public function werbDif($date = NULL)
     {
         $curDate = new Calendar();
         $date2 = ($date ? $date : $this);
         $diff = $date2->diff($curDate)->days;
 
-        $werbs = (empty($werb) ? $this->difWerbs : $werb);
+		$local = $this->localization->getDifference();
 
-        if ($diff <= 2) {
-            $format = $werbs[$diff];
-        } elseif ($diff < 5) {
-            $format = $werbs['<5>'] . ' ' . $diff . ' ' . $werbs['<5'];
+        if ($diff === 0) {
+        	return $local['today'];
+		} elseif ($diff === 1) {
+			return $local['tomorrow'];
+        } elseif ($diff === 2) {
+			return $local['afterTomorrow'];
+		} elseif ($diff < 5) {
+        	return $local['after'] . ' ' . $diff . ' ' . $local['twoDays'];
         } elseif ($diff >= 5) {
-            $format = $werbs['<5>'] . ' ' . $diff.' '. $werbs['>=5'];
+			return $local['after'] . ' ' . $diff . ' ' . $local['fiveDays'];
         }
 
-        return $format;
-    }
-
-	/**
-	 * Get different between 2 day by world
-	 * @param type $date
-	 * @param type $date2
-	 * @return boolean|string
-	 */
-    public function werbDif2($date = null, $date2 = null)
-    {
-		trigger_error('werbDif2 is deprecated, use werbDif($werb, $date).', E_USER_DEPRECATED);
-        $date2 = ($date2 ? $date2 : $this->date);
-
-        $werbs = $this->difWerbs;
-
-        return $this->werbDif($werbs, $date2);
+		return $local['after'] . ' ' . $diff . ' ' . $local['fiveDays'];
     }
 
 	/**
@@ -678,7 +583,7 @@ class Calendar extends DateTime
      */
     public function sklonovaniDays($date, $pad = 1)
     {
-        return $this->sklonovaniDny[$date->format('w')][$pad];
+    	return $this->localization->getInflexion($date->format('w'), $pad);
     }
 
     /**
@@ -902,29 +807,4 @@ class Calendar extends DateTime
 
         return $date;
     }
-
-    /**
-	 * Get Shipping time
-	 * @param int|boolean $hour default FALSE
-	 * @param int $minute default 0
-     * @deprecated Please Use setShippingTime and getShippingDate
-	 * @return Calendar
-	 */
-    public function getShippingTime($hour = FALSE, $minute = 0)
-    {
-        trigger_error('getShippingTime is deprecated, use setShippingTime($hour, $minute) and getShippingDate().', E_USER_DEPRECATED);
-        return $this->getShippingDate();
-    }
-    /**
-     * Help for Shipping time
-     * @param int|boolean $hour
-     * @param int $minute
-     * @deprecated Please Use setShippingTime and getShippingDate
-     * @return Calendar
-     */
- 	public function getShippingTimeTest($hour = FALSE, $minute = 0, $date = NULL)
-    {
-        trigger_error('getShippingTimeTest is deprecated, use setShippingTime($hour, $minute) and getShippingDate().', E_USER_DEPRECATED);
-        return $this->getShippingDate();
- 	}
 }

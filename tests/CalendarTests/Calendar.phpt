@@ -144,12 +144,6 @@ class CalendarTest extends \Tester\TestCase
         Assert::equal('03.05.2016', $date3->getShippingDate()->format('d.m.Y'), 'dneska pracovni den 2, 10:00');
         Assert::equal(TRUE, $date->isWorkDay());
 
-        /*Assert::equal('02.05.2016', $date->getShippingTime()->format('d.m.Y'), 'dneska pracovni den 2, notime');
-        Assert::equal(TRUE, $date->isWorkDay());
-
-        Assert::equal('03.05.2016', $date->getShippingTime(10, 0)->format('d.m.Y'), 'dneska pracovni den 2, 10:00');
-        Assert::equal(TRUE, $date->isWorkDay());*/
-
         $date2 = new Calendar(DATE_RELEASE . ' 15:50');
 
         $date2->setShippingTime(12, 0);
@@ -157,14 +151,6 @@ class CalendarTest extends \Tester\TestCase
         $shipping = $date2->getShippingDate();
         Assert::equal('03.05.2016', $shipping->format('d.m.Y'), 'dneska pracovni den 4');
         Assert::equal(TRUE, $shipping->isWorkDay());
-
-        /*$date2->getShippingTime();
-        Assert::equal('02.05.2016', $date2->format('d.m.Y'), 'dneska pracovni den 3');
-        Assert::equal(TRUE, $date2->isWorkDay());
-
-        $date2->getShippingTime(12, 0);
-        Assert::equal('03.05.2016', $date2->format('d.m.Y'), 'dneska pracovni den 4');
-        Assert::equal(TRUE, $date2->isWorkDay());*/
       }
 
 	public function testSklonovani()

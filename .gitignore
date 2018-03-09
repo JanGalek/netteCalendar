@@ -5,3 +5,4 @@ composer.lock
 coverage.xml
 coverage.html
 tests/CalendarTests/output
+/tests/CalendarTests/test.php
