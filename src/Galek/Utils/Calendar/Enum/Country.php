@@ -11,11 +11,11 @@ namespace Galek\Utils\Calendar\Enum;
 
 class Country
 {
-	public const CZ = 'CzechRepublic',
-				 SK = 'Slovakia',
-				 PL = 'Poland',
-				 DE = 'Germany',
-				 AT = 'Austria';
+	const CZ = 'CzechRepublic',
+		  SK = 'Slovakia',
+		  PL = 'Poland',
+		  DE = 'Germany',
+		  AT = 'Austria';
 
 	public static $list = [
 		self::CZ,

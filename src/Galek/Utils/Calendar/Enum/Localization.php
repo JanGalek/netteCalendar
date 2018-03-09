@@ -11,9 +11,9 @@ namespace Galek\Utils\Calendar\Enum;
 
 class Localization
 {
-	public const CZ = 'cs',
-				 SK = 'sk',
-				 PL = 'en';
+	const CZ = 'cs',
+		  SK = 'sk',
+		  PL = 'en';
 
 	public static $list = [
 		self::CZ,
