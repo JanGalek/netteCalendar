@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Galek\Utils;
 
+use Galek\Utils\Calendar\Enum\Country;
 use Nette\Utils\DateTime;
 
 date_default_timezone_set('Europe/Prague');
@@ -23,23 +24,6 @@ class Calendar extends DateTime
 
   	/** @var int Number of days to delivery */
   	public $shippingtime = 1;
-
-
-    /** @var array */
-    private $svatky = [
-        '01-01',
-        '03-25',
-        '05-01',
-        '05-08',
-        '07-05',
-        '07-06',
-        '09-28',
-        '10-28',
-        '11-17',
-        '12-24',
-        '12-25',
-        '12-26',
-    ];
 
     /**
       * Use 24 hours type
@@ -66,13 +50,19 @@ class Calendar extends DateTime
 	 */
 	private $localization;
 
+	/**
+	 * @var Holidays
+	 */
+	private $holidays;
+
 
 	/**
      * @param string $time [optional]
      * @param $object [optional]
 	 * @param string $localization
+	 * @param string $country
      */
-    public function __construct($time = 'now', $object = null, $localization = 'cs')
+    public function __construct($time = 'now', $object = null, $localization = 'cs', $country = Country::CZ)
     {
         parent::__construct($time, $object);
 
@@ -81,8 +71,23 @@ class Calendar extends DateTime
         if (!isset($this->date)) {
             $this->date = $this->curDate;
         }
+
 		$this->localization = new Localization($localization);
+        $this->holidays = new Holidays($country);
 	}
+
+
+	public function getHolidays()
+	{
+		return $this->holidays;
+	}
+
+
+	public function getLocalization()
+	{
+		return $this->localization;
+	}
+
 
 	/**
 	 * Set number of days to delivery
@@ -286,18 +291,19 @@ class Calendar extends DateTime
     public function isHoliday()
     {
         $date = $this;
-        if ($this->getEasterMonday()->format('Y-m-d') === $date->format('Y-m-d')) {
+
+        if ($this->holidays->allowedEaster() && $this->getEasterMonday()->format('Y-m-d') === $date->format('Y-m-d')) {
             return TRUE;
         }
 
-        if ($this->getBigFriday()->format('Y-m-d') === $date->format('Y-m-d')) {
+        if ($this->holidays->allowedGoodFriday() && $this->getBigFriday()->format('Y-m-d') === $date->format('Y-m-d')) {
             return TRUE;
         }
 
-        foreach ($this->svatky as $svatek) {
-            $testdate = $date->getYear() . '-' . $svatek;
+        foreach ($this->holidays->getHolidays() as $holiday) {
+            $yearHoliday = $date->getYear() . '-' . $holiday;
 
-            if ($this->format('Y-m-d') == $testdate) {
+            if ($this->format('Y-m-d') === $yearHoliday) {
                 return TRUE;
             }
         }
@@ -493,17 +499,27 @@ class Calendar extends DateTime
         return $this->getVelikonoce($rok);
     }
 
-    /**
+	/**
 	 * Is Big Friday (friday before Easter, Czech republic = Holiday) ?
-	 * @param bool|integer $rok
+	 * @param bool|integer $year
 	 * @return DateTime
 	 */
-    public function getBigFriday($rok = FALSE)
+	public function getGoodFriday($year = FALSE)
+	{
+		$velNe = $this->getVelikonoce($year);
+		$day = DateTime::from($velNe);
+		$day->modify('-2 day');
+		return $day;
+	}
+
+    /**
+	 * Is Big Friday (friday before Easter, Czech republic = Holiday) ?
+	 * @param bool|integer $year
+	 * @return DateTime
+	 */
+    public function getBigFriday($year = FALSE)
     {
-        $velNe = $this->getVelikonoce($rok);
-        $day = DateTime::from($velNe);
-        $day->modify('-2 day');
-        return $day;
+        return $this->getGoodFriday($year);
     }
 
 	/**

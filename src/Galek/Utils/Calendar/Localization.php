@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Galek\Utils;
 
 
+use Galek\Utils\Calendar\Validators\LocalizationValidator;
 use Nette\Neon\Neon;
 
 
@@ -22,12 +23,13 @@ class Localization
 
 	public function __construct(string $local)
 	{
-		$this->local = $local;
+		$this->setLocalization($local);
 	}
 
 
 	public function setLocalization(string $local)
 	{
+		LocalizationValidator::validate($local);
 		$this->local = $local;
 	}
 
@@ -71,6 +73,6 @@ class Localization
 	private function loadConfig()
 	{
 		$file = __DIR__ . '/Localization/' . $this->local . '.neon';
-		return Neon::decode(file_get_contents($file));
+		return Neon::decode(file_get_contents($file), Neon::BLOCK);
 	}
 }
