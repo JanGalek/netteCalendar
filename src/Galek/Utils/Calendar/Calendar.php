@@ -202,7 +202,7 @@ class Calendar extends DateTime
      */
     public function isWeekend()
     {
-        return ($this->dayNumber() >= 6 || $this->dayNumber() === 0 ? true : false);
+		return Day::isWeekend($this);
     }
 
     /**
@@ -211,7 +211,7 @@ class Calendar extends DateTime
      */
     public function isWeekday()
     {
-        return ($this->dayNumber() <= 5 && $this->dayNumber() >= 1);
+		return Day::isWeek($this);
     }
 
     /**
@@ -220,7 +220,7 @@ class Calendar extends DateTime
      */
     public function isMonday()
     {
-        return ($this->dayNumber() === 1);
+		return Day::isMonday($this);
     }
 
     /**
@@ -229,7 +229,7 @@ class Calendar extends DateTime
      */
     public function isTuesday()
     {
-        return ($this->dayNumber() === 2);
+		return Day::isTuesday($this);
     }
 
     /**
@@ -238,7 +238,7 @@ class Calendar extends DateTime
      */
     public function isWednesday()
     {
-        return ($this->dayNumber() === 3);
+		return Day::isWednesday($this);
     }
 
     /**
@@ -247,7 +247,7 @@ class Calendar extends DateTime
      */
     public function isThursday()
     {
-        return ($this->dayNumber() === 4);
+		return Day::isThursday($this);
     }
 
     /**
@@ -256,7 +256,7 @@ class Calendar extends DateTime
      */
     public function isFriday()
     {
-        return ($this->dayNumber() === 5);
+		return Day::isFriday($this);
     }
 
     /**
@@ -265,7 +265,7 @@ class Calendar extends DateTime
      */
     public function isSaturday()
     {
-        return ($this->dayNumber() === 6);
+        return Day::isSaturday($this);
     }
 
     /**
@@ -274,7 +274,7 @@ class Calendar extends DateTime
      */
     public function isSunday()
     {
-        return ($this->dayNumber() === 0);
+		return Day::isSunday($this);
     }
 
     /**
@@ -302,25 +302,14 @@ class Calendar extends DateTime
     }
 
 
-    /**
-    * Check if is Workday
-    * @return boolean
-    */
-    public function isWorkDay($date = false)
+	/**
+	 * Check if is Workday
+	 * @param \DateTime|null $date
+	 * @return bool
+	 */
+    public function isWorkDay(\DateTime $date = null)
     {
-        if ($date === false) {
-            $testDate = $this;
-        } else {
-            $testDate = $date;
-        }
-
-    	if ($testDate->isHoliday()) {
-    		return false;
-    	}
-    	if ($testDate->isWeekend()) {
-    		return false;
-    	}
-    	return true;
+    	return Day::isWork($this->holidays, $date ?: $this);
     }
 
 

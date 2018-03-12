@@ -15,8 +15,13 @@ use Galek\Utils\Calendar\Enum\Localization;
 class LocalizationValidator implements IValidator
 {
 
-	public static function validate($value): bool
+	public static function validate($value)
 	{
-		return \in_array($value, Localization::$list, false);
+		if ( \in_array($value, Localization::$list, false) ) {
+			return true;
+		}
+
+
+		throw new InvalidHourException(sprintf('Value "%s" is invalid for localization', $value));
 	}
 }
