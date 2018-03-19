@@ -16,9 +16,9 @@
     "require": {
         "php": ">= 7.0",
         "nette/utils": "^2.4|^3.0",
-        "nette/neon": "^3.0@dev",
-        "nette/di": "^3.0@dev",
-        "nette/bootstrap": "^3.0@dev"
+        "nette/neon": "^2.4|^3.0@dev",
+        "nette/di": "^2.4|^3.0@dev",
+        "nette/bootstrap": "^2.4|^3.0@dev"
     },
     "require-dev": {
         "nette/tester": "^1.7|^2.0",
