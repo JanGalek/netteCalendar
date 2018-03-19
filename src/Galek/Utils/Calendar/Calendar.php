@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Galek\Utils\Calendar;
 
+use Galek\Utils\Calendar\Configuration\Localization;
 use Galek\Utils\Calendar\Enum\Country;
 use Nette\Utils\DateTime;
 
@@ -44,21 +45,15 @@ class Calendar extends DateTime
 	/**
 	 * @var Localization
 	 */
-	private $localization;
-
-	/**
-	 * @var Holidays
-	 */
-	private $holidays;
+	private $configuration;
 
 
 	/**
      * @param string $time [optional]
      * @param $object [optional]
-	 * @param string $localization
-	 * @param string $country
+	 * @param $configuration Localization
      */
-    public function __construct($time = 'now', $object = null, $localization = 'cs', $country = Country::CZ)
+    public function __construct($time = 'now', $object = null, Localization $configuration = null)
     {
         parent::__construct($time, $object);
 
@@ -66,34 +61,32 @@ class Calendar extends DateTime
             $this->date = new \DateTime();
         }
 
-        $this->setLocalization($localization);
-        $this->setHolidays($country);
+		$this->configuration = $configuration ?? new Localization();
 	}
 
 
-	public function setHolidays(string $country)
+	public function setHolidays(string $country): void
 	{
-		$this->holidays = new Holidays($country);
-		return $this;
+		$this->configuration->setHolidays($country);
 	}
 
 
 	public function getHolidays()
 	{
-		return $this->holidays;
+		return $this->configuration->getHolidays();
 	}
 
 
 	public function setLocalization(string $localization)
 	{
-		$this->localization = new Localization($localization);
+		$this->configuration->setLocalization($localization);
 		return $this;
 	}
 
 
 	public function getLocalization()
 	{
-		return $this->localization;
+		return $this->configuration->getLocalization();
 	}
 
 
@@ -139,7 +132,7 @@ class Calendar extends DateTime
      */
     public function getDay(): int
     {
-        return (int) $this->format("d");
+        return (int) $this->format('d');
     }
 
     /**
@@ -306,7 +299,7 @@ class Calendar extends DateTime
 	 */
     public function isWorkDay(\DateTime $date = null): bool
     {
-    	return Day::isWork($this->holidays, $date ?: $this);
+    	return Day::isWork($this->configuration->getHolidays(), $date ?: $this);
     }
 
 
@@ -404,16 +397,14 @@ class Calendar extends DateTime
 
 	/**
 	 * Get different between today and $date by world
-	 * @param null|DateTime $date
 	 * @return string
 	 */
-    public function werbDif($date = null): string
+    public function werbDif(): string
     {
         $curDate = new Calendar();
-        $date2 = ($date ?: $this);
-        $diff = $date2->diff($curDate)->days;
+        $diff = $this->diff($curDate)->days;
 
-		$local = $this->localization->getDifference();
+		$local = $this->configuration->getLocalization()->getDifference();
 
         if ($diff === 0) {
         	return $local['today'];
@@ -469,7 +460,7 @@ class Calendar extends DateTime
      */
     public function sklonovaniDays($date, $pad = 1): string
     {
-    	return $this->localization->getInflexion($date->format('w'), $pad);
+    	return $this->configuration->getLocalization()->getInflexion($date->format('w'), $pad);
     }
 
     /**
@@ -523,8 +514,6 @@ class Calendar extends DateTime
 
         if ($workTime === true) {
             $limit = $this->getWorkTime();
-            $sH = $limit[0][0];
-            $sM = $limit[0][1];
             $eH = $limit[1][0];
             $eM = $limit[1][1];
 
@@ -626,7 +615,7 @@ class Calendar extends DateTime
     }
 
     /**
-     * Enable Transport at weekend
+     * Enable Shipper at weekend
      * @return Calendar
      */
     public function enableShippingWeekend(): Calendar
@@ -636,7 +625,7 @@ class Calendar extends DateTime
     }
 
     /**
-     * Disable Transport at weekend
+     * Disable Shipper at weekend
      * @return Calendar
      */
     public function disableShippingWeekend(): Calendar
@@ -646,7 +635,7 @@ class Calendar extends DateTime
     }
 
     /**
-     * Set Transport time
+     * Set Shipper time
      * @param int $endHour
      * @param int $endMinute
      * @return Calendar
@@ -659,7 +648,7 @@ class Calendar extends DateTime
     }
 
     /**
-     * Get Transport Date
+     * Get Shipper Date
      * @return Calendar
      */
     public function getShippingDate(): Calendar

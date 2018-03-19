@@ -121,12 +121,12 @@ class DodaniTest extends \Tester\TestCase
         $testTime3->setShippingTime(10, 0);
         $testTime3->enableShippingWeekend();
         $shipping = $testTime3->getShippingDate();
-        Assert::equal('25.04.2017', $shipping->format('d.m.Y'), 'Enabled Weekend shipping, Transport days 3, Time 11:00 to 10:00');
+        Assert::equal('25.04.2017', $shipping->format('d.m.Y'), 'Enabled Weekend shipping, Shipper days 3, Time 11:00 to 10:00');
 
         $testTime3->setShippingDays(2);
         $testTime3->setShippingTime(12, 0);
         $shipping = $testTime3->getShippingDate();
-        Assert::equal('23.04.2017', $shipping->format('d.m.Y'), 'Enabled Weekend shipping, Transport days 2, Time 11:00 to 12:00');
+        Assert::equal('23.04.2017', $shipping->format('d.m.Y'), 'Enabled Weekend shipping, Shipper days 2, Time 11:00 to 12:00');
     }
 
     public function testShippingAnotherTime()

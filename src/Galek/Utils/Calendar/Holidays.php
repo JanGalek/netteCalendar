@@ -39,6 +39,12 @@ class Holidays
 	}
 
 
+	public function getCountry(): string
+	{
+		return $this->country;
+	}
+
+
 	/**
 	 * @return array
 	 */

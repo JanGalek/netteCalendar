@@ -13,7 +13,9 @@ class Localization
 {
 	const CZ = 'cs',
 		  SK = 'sk',
-		  PL = 'en';
+		  PL = 'en',
+		  EN = 'en',
+		  DE = 'en';
 
 	public static $list = [
 		self::CZ,

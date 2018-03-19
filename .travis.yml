@@ -1,7 +1,6 @@
 language: php
 
 php:
-  - 7.0
   - 7.1
   - 7.2
 
@@ -23,7 +22,6 @@ matrix:
     - env:
     - php: 7.1
       env: COMPOSER_EXTRA_ARGS="--prefer-stable" COVERAGE="--coverage ./coverage.xml --coverage-src ./src" TESTER_RUNTIME="phpdbg"
-    - php: 7.2
 
 before_install:
     # turn off XDebug
