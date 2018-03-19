@@ -3,7 +3,7 @@
 require_once __DIR__ . '/boostrap.php';
 
 use Tester\Assert;
-use Galek\Utils\Calendar;
+use Galek\Utils\Calendar\Calendar;
 
 class WorkDaysTest extends \Tester\TestCase
 {

@@ -6,7 +6,7 @@
  */
 declare(strict_types=1);
 
-namespace Galek\Utils\Exceptions;
+namespace Galek\Utils\Calendar\Exceptions;
 
 
 class InvalidHourException extends \Exception

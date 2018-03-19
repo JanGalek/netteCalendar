@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Galek\Utils;
+namespace Galek\Utils\Calendar;
 
 use Galek\Utils\Calendar\Enum\Country;
 use Nette\Utils\DateTime;
@@ -101,25 +101,25 @@ class Calendar extends DateTime
 	 * Set number of days to delivery
 	 * @param int
 	 */
-	public function setShippingDays($shippingtime)
+	public function setShippingDays($shippingtime): void
     {
   		$this->shippingtime = (int) $shippingtime;
 	}
 
 
-    public function setYear($year)
+    public function setYear($year): void
     {
         $this->setDate($year, $this->getMonth(), $this->getDay());
     }
 
 
-	public function setMonth($month)
+	public function setMonth($month): void
     {
         $this->setDate($this->getYear(), $month, $this->getDay());
     }
 
 
-    public function setDay($day)
+    public function setDay($day): void
     {
         $this->setDate($this->getYear(), $this->getMonth(), $day);
     }
@@ -128,7 +128,7 @@ class Calendar extends DateTime
 	 * Get number of days to delivery
 	 * @return int
 	 */
-	public function getShippingDays()
+	public function getShippingDays(): int
     {
   		return $this->shippingtime;
 	}
@@ -137,7 +137,7 @@ class Calendar extends DateTime
      * Get Day
      * @return int
      */
-    public function getDay()
+    public function getDay(): int
     {
         return (int) $this->format("d");
     }
@@ -146,7 +146,7 @@ class Calendar extends DateTime
      * Get Month
      * @return int
      */
-    public function getMon()
+    public function getMon(): int
     {
         return (int) $this->format('m');
     }
@@ -155,7 +155,7 @@ class Calendar extends DateTime
      * Get Month
      * @return int
      */
-    public function getMonth()
+    public function getMonth(): int
     {
         return $this->getMon();
     }
@@ -164,7 +164,7 @@ class Calendar extends DateTime
      * Get Year
      * @return int
      */
-    public function getYear()
+    public function getYear(): int
     {
         return (int) $this->format('Y');
     }
@@ -173,115 +173,112 @@ class Calendar extends DateTime
      * Get Hour
      * @return int
      */
-    public function getHour()
+    public function getHour(): int
     {
-        return (int) $this->format("G");
+        return (int) $this->format('G');
     }
 
     /**
      * Get Minute
      * @return int
      */
-    public function getMinute()
+    public function getMinute(): int
     {
-        return (int) $this->format("i");
+        return (int) $this->format('i');
     }
 
     /**
      * Get time Second
      * @return int
      */
-    public function getSecond()
+    public function getSecond(): int
     {
-        return (int) $this->format("s");
+        return (int) $this->format('s');
     }
 
     /**
      * Check Weekend
-     * @return boolean
+     * @return bool
      */
-    public function isWeekend()
+    public function isWeekend(): bool
     {
 		return Day::isWeekend($this);
     }
 
     /**
      * Check Weekday
-     * @return boolean
+     * @return bool
      */
-    public function isWeekday()
+    public function isWeekday(): bool
     {
 		return Day::isWeek($this);
     }
 
     /**
-     * Check Monday / Pondělí
-     * @return boolean
+     * Check Monday
+     * @return bool
      */
-    public function isMonday()
+    public function isMonday(): bool
     {
 		return Day::isMonday($this);
     }
 
     /**
-     * Check Tuesday / Úterý
-     * @return boolean
+     * Check Tuesday
+     * @return bool
      */
-    public function isTuesday()
+    public function isTuesday(): bool
     {
 		return Day::isTuesday($this);
     }
 
     /**
-     * Check Wednesday / Středa
-     * @return boolean
+     * Check Wednesday
+     * @return bool
      */
-    public function isWednesday()
+    public function isWednesday(): bool
     {
 		return Day::isWednesday($this);
     }
 
     /**
-     * Check Thursday / Čtvrtek
-     * @return boolean
+     * Check Thursday
+     * @return bool
      */
-    public function isThursday()
+    public function isThursday(): bool
     {
 		return Day::isThursday($this);
     }
 
     /**
-     * Check Friday / Pátek
-     * @return boolean
+     * Check Friday
+     * @return bool
      */
-    public function isFriday()
+    public function isFriday(): bool
     {
 		return Day::isFriday($this);
     }
 
     /**
-     * Check Saturday / Sobota
-     * @return boolean
+     * Check Saturday
+     * @return bool
      */
-    public function isSaturday()
+    public function isSaturday(): bool
     {
         return Day::isSaturday($this);
     }
 
     /**
-     * Check Sunday / Neděle
-     * @return boolean
+     * Check Sunday
+     * @return bool
      */
-    public function isSunday()
+    public function isSunday(): bool
     {
 		return Day::isSunday($this);
     }
 
-    /**
-     * Check work time
-     * @return bool
-     */
-    public function isWorkTime()
+
+    public function isWorkTime(): bool
     {
         if ($this->isWorkDay()) {
             $startTime = $this->getWorkTime(1);
@@ -294,9 +291,9 @@ class Calendar extends DateTime
 
     /**
      * Check Holiday
-     * @return boolean
+     * @return bool
      */
-    public function isHoliday()
+    public function isHoliday(): bool
     {
         return $this->getHolidays()->isHoliday($this);
     }
@@ -307,7 +304,7 @@ class Calendar extends DateTime
 	 * @param \DateTime|null $date
 	 * @return bool
 	 */
-    public function isWorkDay(\DateTime $date = null)
+    public function isWorkDay(\DateTime $date = null): bool
     {
     	return Day::isWork($this->holidays, $date ?: $this);
     }
@@ -325,7 +322,7 @@ class Calendar extends DateTime
     }
 
 
-    public function getWorkDayNumberInMonthTo(int $month, int $year, int $day)
+    public function getWorkDayNumberInMonthTo(int $month, int $year, int $day): int
     {
         $dayCount = $this->getDaysInMonth($year, $month);
         if ($day > $dayCount) {
@@ -353,7 +350,7 @@ class Calendar extends DateTime
      * @param int $minute format: 1,2,3,..9,10,...
      * @return boolean
      */
-    public function timeBellow(int $hour, int $minute = 0)
+    public function timeBellow(int $hour, int $minute = 0): bool
     {
         return Time::bellow($this, $hour, $minute);
     }
@@ -364,7 +361,7 @@ class Calendar extends DateTime
      * @param int $minute
      * @return bool
      */
-    public function timeOver(int $hour, int $minute = 0)
+    public function timeOver(int $hour, int $minute = 0): bool
     {
         return Time::over($this, $hour, $minute);
     }
@@ -376,16 +373,13 @@ class Calendar extends DateTime
      * @param int $lastMinute
      * @return bool
      */
-    public function timeBetween(int $firstHour, int $firstMinute, int $lastHour, int $lastMinute)
+    public function timeBetween(int $firstHour, int $firstMinute, int $lastHour, int $lastMinute): bool
     {
     	return Time::between($this, $firstHour, $firstMinute, $lastHour, $lastMinute);
     }
 
-    /**
-     * Get Number of Day
-     * @return string
-     */
-    public function dayNumber()
+
+    public function dayNumber(): int
     {
         return (int) $this->format('w');
     }
@@ -394,7 +388,7 @@ class Calendar extends DateTime
 	 * Get format date d.m.Y
 	 * @return string
 	 */
-    public function getDateFormat()
+    public function getDateFormat(): string
     {
         return $this->format('d.m.Y');
     }
@@ -403,7 +397,7 @@ class Calendar extends DateTime
      * Get format date d.m.Y H:i:s
      * @return string
      */
-    public function getDateTimeFormat()
+    public function getDateTimeFormat(): string
     {
         return $this->format('d.m.Y H:i:s');
     }
@@ -411,9 +405,9 @@ class Calendar extends DateTime
 	/**
 	 * Get different between today and $date by world
 	 * @param null|DateTime $date
-	 * @return boolean|string
+	 * @return string
 	 */
-    public function werbDif($date = NULL)
+    public function werbDif($date = null): string
     {
         $curDate = new Calendar();
         $date2 = ($date ?: $this);
@@ -439,7 +433,7 @@ class Calendar extends DateTime
 	 * @param bool|int $year
 	 * @return Calendar
 	 */
-    public function getEasterMonday($year = false)
+    public function getEasterMonday($year = false): Calendar
     {
     	$year = ($year === false ? $this->getYear() : $year);
         return EasterHoliday::getMonday($year);
@@ -450,7 +444,7 @@ class Calendar extends DateTime
 	 * @param bool|int $year
 	 * @return Calendar
 	 */
-    public function getEaster($year = false)
+    public function getEaster($year = false): Calendar
     {
 		$year = ($year === false ? $this->getYear() : $year);
 		return EasterHoliday::getEaster($year);
@@ -461,7 +455,7 @@ class Calendar extends DateTime
 	 * @param bool|int $year
 	 * @return Calendar
 	 */
-	public function getGoodFriday($year = false)
+	public function getGoodFriday($year = false): Calendar
 	{
 		$year = ($year === false ? $this->getYear() : $year);
 		return EasterHoliday::getGoodFriday($year);
@@ -473,7 +467,7 @@ class Calendar extends DateTime
      * @param integer $pad
      * @return string
      */
-    public function sklonovaniDays($date, $pad = 1)
+    public function sklonovaniDays($date, $pad = 1): string
     {
     	return $this->localization->getInflexion($date->format('w'), $pad);
     }
@@ -482,9 +476,9 @@ class Calendar extends DateTime
      * Get workday
      * @param bool|Calendar|\DateTime|DateTime $next
      * @param bool|Calendar $date
-     * @return bool|\DateTime|Calendar|DateTime
+     * @return Calendar
      */
-    public function getWorkDay($next = false, $date = false)
+    public function getWorkDay($next = false, $date = false): Calendar
     {
     	if (!$date) {
             $date = $this;
@@ -521,7 +515,7 @@ class Calendar extends DateTime
      * @param bool $date
      * @return Calendar
      */
-    public function GetWorkDayLimit($workTime = true, $date = false)
+    public function GetWorkDayLimit($workTime = true, $date = false): Calendar
     {
         if (!$date) {
             $date = $this;
@@ -534,7 +528,7 @@ class Calendar extends DateTime
             $eH = $limit[1][0];
             $eM = $limit[1][1];
 
-            if ($this->timeBellow($eH, $eM) == false) {
+            if ($this->timeBellow($eH, $eM) === false) {
                 $date->modify('+1 days');
             }
         }
@@ -552,7 +546,7 @@ class Calendar extends DateTime
      * @return Calendar
      * @throws \Exception
      */
-    public function setWorkTime($worktime, $startMinute = false, $endHour = false, $endMinute = false)
+    public function setWorkTime($worktime, $startMinute = false, $endHour = false, $endMinute = false): Calendar
     {
         if (\is_array($worktime)) {
 
@@ -632,32 +626,32 @@ class Calendar extends DateTime
     }
 
     /**
-     * Enable Shipping at weekend
+     * Enable Transport at weekend
      * @return Calendar
      */
-    public function enableShippingWeekend()
+    public function enableShippingWeekend(): Calendar
     {
         $this->shippingWeekend = true;
         return $this;
     }
 
     /**
-     * Disable Shipping at weekend
+     * Disable Transport at weekend
      * @return Calendar
      */
-    public function disableShippingWeekend()
+    public function disableShippingWeekend(): Calendar
     {
         $this->shippingWeekend = false;
         return $this;
     }
 
     /**
-     * Set Shipping time
+     * Set Transport time
      * @param int $endHour
      * @param int $endMinute
      * @return Calendar
      */
-    public function setShippingTime($endHour, $endMinute)
+    public function setShippingTime($endHour, $endMinute): Calendar
     {
         $this->shipping_time['hour'] = $endHour;
         $this->shipping_time['minute'] = $endMinute;
@@ -665,10 +659,10 @@ class Calendar extends DateTime
     }
 
     /**
-     * Get Shipping Date
+     * Get Transport Date
      * @return Calendar
      */
-    public function getShippingDate()
+    public function getShippingDate(): Calendar
     {
         $shippingTime = $this->shipping_time;
         $hour = $shippingTime['hour'];

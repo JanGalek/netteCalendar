@@ -6,34 +6,23 @@
  */
 declare(strict_types=1);
 
-namespace Galek\Utils;
+namespace Galek\Utils\Calendar;
 
 use Nette\Utils\DateTime;
 
 class EasterHoliday
 {
 
-
-
-	/**
-	 * Get Easter Monday
-	 * @param integer $year
-	 * @return Calendar
-	 */
-	public static function getMonday(int $year)
+	public static function getMonday(int $year): Calendar
 	{
 		$easter = self::getEaster($year);
-		$day = DateTime::from($easter);
+		$day = Calendar::from($easter);
 		$day->modify('+1 day');
 		return $day;
 	}
 
-	/**
-	 * Function for calculation Easter
-	 * @param int $year
-	 * @return Calendar
-	 */
-	public static function getEaster($year)
+
+	public static function getEaster($year): Calendar
 	{
 		$a = ($year % 19);	    // cyklus stejnych dnu
 		$b = ($year % 4);    // cyklus prestupnych roku
@@ -58,30 +47,17 @@ class EasterHoliday
 		return self::calculate($year, $s1, $s2, $d, $e, $a);
 	}
 
-	/**
-	 * Is Big Friday (friday before Easter, Czech republic = Holiday) ?
-	 * @param bool|integer $year
-	 * @return Calendar
-	 */
-	public static function getGoodFriday($year = false)
+
+	public static function getGoodFriday($year = false): Calendar
 	{
 		$easter = self::getEaster($year);
-		$day = DateTime::from($easter);
+		$day = Calendar::from($easter);
 		$day->modify('-2 day');
 		return $day;
 	}
 
-	/**
-	 * Checking Easter
-	 * @param type $year
-	 * @param mixed $s1
-	 * @param mixed $s2
-	 * @param type $d
-	 * @param type $e
-	 * @param type $a
-	 * @return Calendar
-	 */
-	private static function calculate($year, $s1, $s2, $d, $e, $a)
+
+	private static function calculate($year, $s1, $s2, $d, $e, $a): Calendar
 	{
 		if ($s1 >= '22' && $s1 <= '31') {
 			$date = $year . '-03-' . $s1;

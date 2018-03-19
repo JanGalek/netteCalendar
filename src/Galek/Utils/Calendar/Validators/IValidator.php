@@ -11,5 +11,5 @@ namespace Galek\Utils\Calendar\Validators;
 
 interface IValidator
 {
-	public static function validate($value);
+	public static function validate($value): bool;
 }

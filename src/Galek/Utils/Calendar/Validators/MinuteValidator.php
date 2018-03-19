@@ -8,11 +8,12 @@ declare(strict_types=1);
 
 namespace Galek\Utils\Calendar\Validators;
 
+use Galek\Utils\Calendar\Exceptions\InvalidHourException;
 
 class MinuteValidator implements IValidator
 {
 
-	public static function validate($value)
+	public static function validate($value): bool
 	{
 		if ( $value >= 0 && $value <= 59 ) {
 			return true;

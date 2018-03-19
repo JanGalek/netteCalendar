@@ -6,13 +6,13 @@
  */
 declare(strict_types=1);
 
-namespace Galek\Utils\Business;
+namespace Galek\Utils\Calendar\Business;
 
 
-use Galek\Utils\Calendar;
+use Galek\Utils\Calendar\Calendar;
 
 
-class Shipping
+class Transport
 {
 	/**
 	 * @var int
@@ -49,31 +49,31 @@ class Shipping
 	}
 
 
-	public function setTime(int $hour, int $minute)
+	public function setTime(int $hour, int $minute): void
 	{
 		$this->setHour($hour);
 		$this->setMinute($minute);
 	}
 
 
-	public function setHour(int $hour)
+	public function setHour(int $hour): void
 	{
 		$this->hour = $hour;
 	}
 
 
-	public function setMinute(int $minute)
+	public function setMinute(int $minute): void
 	{
 		$this->minute = $minute;
 	}
 
 
-	public function enableWeekend($value = true)
+	public function enableWeekend($value = true): void
 	{
 		$this->weekend = $value;
 	}
 
-	public function disableWeekend()
+	public function disableWeekend(): void
 	{
 		$this->enableWeekend(false);
 	}

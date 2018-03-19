@@ -10,15 +10,15 @@
     ],
     "autoload": {
         "psr-4": {
-	        "Galek\\Utils\\": "src/Galek/Utils/Calendar/",
-            "Galek\\Utils\\Calendar\\Enum\\": "src/Galek/Utils/Calendar/Enum/",
-            "Galek\\Utils\\Calendar\\Validators\\": "src/Galek/Utils/Calendar/Validators/"
+	        "Galek\\Utils\\Calendar\\": "src/Galek/Utils/Calendar/"
         }
     },
     "require": {
         "php": ">= 7.0",
         "nette/utils": "^2.4|^3.0",
-        "nette/neon": "^3.0@dev"
+        "nette/neon": "^3.0@dev",
+        "nette/di": "^3.0@dev",
+        "nette/bootstrap": "^3.0@dev"
     },
     "require-dev": {
         "nette/tester": "^1.7|^2.0",

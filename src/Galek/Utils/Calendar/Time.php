@@ -6,29 +6,20 @@
  */
 declare(strict_types=1);
 
-namespace Galek\Utils;
+namespace Galek\Utils\Calendar;
 
 
 class Time
 {
 
-	/**
-	 * @param Calendar $date
-	 * @return float|int|string
-	 */
 	public static function stamp(Calendar $date)
 	{
 		$ts = $date->format('U');
 		return \is_float($tmp = $ts * 1) ? $ts : $tmp;
 	}
 
-	/**
-	 * @param Calendar $date
-	 * @param int      $hour
-	 * @param int      $minute
-	 * @return bool
-	 */
-	public static function over(Calendar $date, int $hour, int $minute)
+
+	public static function over(Calendar $date, int $hour, int $minute): bool
 	{
 		if ($date->getHour() >= $hour) {
 			return ($date->getHour() === $hour ? ($date->getMinute() >= $minute) : true);
@@ -36,13 +27,8 @@ class Time
 		return false;
 	}
 
-	/**
-	 * Check Time bellow
-	 * @param int $hour
-	 * @param int $minute format: 1,2,3,..9,10,...
-	 * @return boolean
-	 */
-	public static function bellow(Calendar $date, int $hour, int $minute)
+
+	public static function bellow(Calendar $date, int $hour, int $minute): bool
 	{
 		if ($date->getHour() <= $hour) {
 			return ($date->getHour() === $hour ? ($date->getMinute() <= $minute) : true);
@@ -51,7 +37,7 @@ class Time
 	}
 
 
-	public static function between(Calendar $date, int $hour1, int $minute1, int $hour2, int $minute2)
+	public static function between(Calendar $date, int $hour1, int $minute1, int $hour2, int $minute2): bool
 	{
 
 		if ($hour1 > $hour2) {

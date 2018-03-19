@@ -6,7 +6,7 @@
  */
 declare(strict_types=1);
 
-namespace Galek\Utils;
+namespace Galek\Utils\Calendar;
 
 
 use Galek\Utils\Calendar\Validators\LocalizationValidator;
@@ -32,14 +32,14 @@ class Localization
 	}
 
 
-	public function setLocalization(string $local)
+	public function setLocalization(string $local): void
 	{
 		LocalizationValidator::validate($local);
 		$this->local = $local;
 	}
 
 
-	public function getLocalization()
+	public function getLocalization(): string
 	{
 		return $this->local;
 	}

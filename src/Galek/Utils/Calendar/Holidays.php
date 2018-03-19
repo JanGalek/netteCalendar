@@ -6,7 +6,7 @@
  */
 declare(strict_types=1);
 
-namespace Galek\Utils;
+namespace Galek\Utils\Calendar;
 
 
 use Galek\Utils\Calendar\Validators\CountryValidator;
@@ -32,7 +32,7 @@ class Holidays
 	}
 
 
-	public function setCountry(string $country)
+	public function setCountry(string $country): void
 	{
 		CountryValidator::validate($country);
 		$this->country = $country;
@@ -42,7 +42,7 @@ class Holidays
 	/**
 	 * @return array
 	 */
-	public function getHolidays()
+	public function getHolidays(): array
 	{
 		return $this->loadConfig()['holidays'];
 	}
@@ -76,7 +76,7 @@ class Holidays
 	 * @param Calendar $date
 	 * @return bool
 	 */
-	public function isHoliday(Calendar $date)
+	public function isHoliday(Calendar $date): bool
 	{
 		if ($this->allowedEaster() && EasterHoliday::getMonday($date->getYear())->format('Y-m-d') === $date->format('Y-m-d')) {
 			return true;
