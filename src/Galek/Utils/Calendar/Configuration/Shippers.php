@@ -50,4 +50,10 @@ class Shippers
 		return $this->list[$name];
 	}
 
+
+	public function getShippers()
+	{
+		return $this->list;
+	}
+
 }

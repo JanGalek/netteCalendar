@@ -59,4 +59,20 @@ class Time
 		return (self::bellow($date, $hour2, $minute2) ? self::over($date, $hour1, $minute1) : false);
 	}
 
+
+	public static function getFullMinute(int $minute): string
+	{
+		if ($minute <= 9) {
+			$minute .= '0';
+		}
+
+		return (string) $minute;
+	}
+
+
+	public static function getFullTime(int $hour, int $minute)
+	{
+		return $hour . ':' . self::getFullMinute($minute);
+	}
+
 }

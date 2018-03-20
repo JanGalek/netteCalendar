@@ -52,6 +52,11 @@ class Configurator
 		return $this->shippers[$group]->getShipper($name);
 	}
 
+	public function getShippers(string $group): array
+	{
+		return $this->shippers[$group]->getShippers();
+	}
+
 
 	protected function setWork(string $group, array $settings, Localization $localization): void
 	{

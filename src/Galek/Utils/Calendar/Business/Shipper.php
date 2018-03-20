@@ -113,9 +113,21 @@ class Shipper
 	}
 
 
+	public function getHour(): int
+	{
+		return $this->hour;
+	}
+
+
 	public function setMinute(int $minute): void
 	{
 		$this->minute = $minute;
+	}
+
+
+	public function getMinute(): int
+	{
+		return $this->minute;
 	}
 
 
