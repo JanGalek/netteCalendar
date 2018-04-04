@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Galek\Utils\Calendar\Configuration;
 
 
+use Galek\Utils\Calendar\Business\IShipper;
 use Galek\Utils\Calendar\Business\Shipper;
 
 
@@ -17,12 +18,12 @@ class Shippers
 	/**
 	 * @var Shipper[]
 	 */
-	private $list;
+	protected $list;
 
 	/**
 	 * @var Localization
 	 */
-	private $localization;
+	protected $localization;
 
 
 	public function __construct(array $shippers = [], Localization $localization)
@@ -45,7 +46,7 @@ class Shippers
 	}
 
 
-	public function getShipper(string $name): Shipper
+	public function getShipper(string $name): IShipper
 	{
 		return $this->list[$name];
 	}

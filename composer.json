@@ -10,7 +10,8 @@
     ],
     "autoload": {
         "psr-4": {
-	        "Galek\\Utils\\Calendar\\": "src/Galek/Utils/Calendar/"
+	        "Galek\\Utils\\Calendar\\": "src/Galek/Utils/Calendar/",
+            "GalekTests\\Calendar\\": "tests/CalendarTests"
         }
     },
     "require": {

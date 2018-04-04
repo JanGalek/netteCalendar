@@ -8,22 +8,23 @@ declare(strict_types=1);
 
 namespace Galek\Utils\Calendar\Configuration;
 
+use Galek\Utils\Calendar\Business\IShipper;
 use Galek\Utils\Calendar\Business\Shipper;
 
 
 class Configurator
 {
-	private $group = [];
+	protected $group = [];
 
 	/**
 	 * @var Shippers[]
 	 */
-	private $shippers;
+	protected $shippers;
 
 	/**
 	 * @var Work[]
 	 */
-	private $work;
+	protected $work;
 
 	public function __construct(array $configuration = [])
 	{
@@ -47,7 +48,7 @@ class Configurator
 	}
 
 
-	public function getShipper(string $group, string $name): Shipper
+	public function getShipper(string $group, string $name): IShipper
 	{
 		return $this->shippers[$group]->getShipper($name);
 	}

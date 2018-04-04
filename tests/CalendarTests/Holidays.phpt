@@ -28,6 +28,19 @@ class HolidaysTest extends \Tester\TestCase
 
 		Assert::type(\Galek\Utils\Calendar\Localization::class, $date->getLocalization());
 	}
+
+
+	public function test2()
+	{
+		$date = new Calendar('2018-03-30');
+		$holidays = new \Galek\Utils\Calendar\Holidays('CzechRepublic');
+
+		Assert::equal(true, $holidays->isHoliday($date));
+
+		Assert::type(\Galek\Utils\Calendar\Holidays::class, $date->getHolidays());
+
+		Assert::type(\Galek\Utils\Calendar\Localization::class, $date->getLocalization());
+	}
 }
 
 (new HolidaysTest())->run();

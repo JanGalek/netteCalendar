@@ -15,7 +15,7 @@ use Galek\Utils\Calendar\Configuration\Localization;
 use Galek\Utils\Calendar\Time;
 
 
-class Shipper
+class Shipper implements IShipper
 {
 	/**
 	 * @var string
@@ -96,6 +96,7 @@ class Shipper
 			$date = $date->getWorkDay();
 		}
 
+		//return $date->getWorkDay();
 		return $date;
 	}
 

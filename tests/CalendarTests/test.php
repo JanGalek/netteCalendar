@@ -16,67 +16,75 @@ use Tracy\Debugger;
 Debugger::enable();
 Debugger::$maxDepth = 6;
 
-$config = [
-	'CzechRepublic' => [
-		'shippers' => [
-			'Geis' => [
-				'endHour' => 13,
-				'endMinute' => 0,
-				'weekend' => false,
-				'deliveryTime' => 1,
-			],
-			'PPL' => [
-				'endHour' => 14,
-				'endMinute' => 0,
-				'weekend' => false,
-				'deliveryTime' => 1,
-			],
-			'DPD' => [
-				'endHour' => 14,
-				'endMinute' => 0,
-				'weekend' => false,
-				'deliveryTime' => 1,
-			],
-		],
+$shippers = [
+	'Geis' => [
+		'endHour' => 13,
+		'endMinute' => 0,
+		'weekend' => false,
+		'deliveryTime' => 1,
 	],
-	'Slovakia' => [
-		'shippers' => [
-			'Geis' => [
-				'endHour' => 14,
-				'endMinute' => 0,
-				'weekend' => false,
-				'deliveryTime' => 1,
-			],
-			'PPL' => [
-				'endHour' => 14,
-				'endMinute' => 0,
-				'weekend' => false,
-				'deliveryTime' => 1,
-			],
-			'DPD' => [
-				'endHour' => 14,
-				'endMinute' => 0,
-				'weekend' => false,
-				'deliveryTime' => 1,
-			],
-		],
+	'PPL' => [
+		'endHour' => 14,
+		'endMinute' => 0,
+		'weekend' => false,
+		'deliveryTime' => 1,
+	],
+	'DPD' => [
+		'endHour' => 14,
+		'endMinute' => 0,
+		'weekend' => false,
+		'deliveryTime' => 1,
+	],
+];
+
+$workTime = [
+	'start' => [
+		'hour' => 8,
+		'minute' => 0
+	],
+	'end' => [
+		'hour' => 16,
+		'minute' => 30
+	],
+	'weekend' => false
+];
+
+$config = [
+	'cz' => [
+		'country' => 'CzechRepublic',
+		'work' => $workTime,
+		'shippers' => $shippers,
+	],
+	'sk' => [
+		'country' => 'Slovakia',
+		'work' => $workTime,
+		'shippers' => $shippers,
 	],
 ];
 
 
-$configuration = new \Galek\Utils\Calendar\Configuration\Configurator($config);
+$configuration = new \GalekTests\Calendar\Models\Configurator($config);
 
+bdump($configuration);
 
-$czDelivery = $configuration->getCountry(\Galek\Utils\Calendar\Enum\Country::CZ);
-dump($czDelivery->getShipper('Geis'));
+$geis = $configuration->getShipper('cz','Geis');
+$testDate = new \Galek\Utils\Calendar\Calendar('2018-03-28 13:00:00');
+$geis->setCurrentDate($testDate);
 
-$geis = $czDelivery->getShipper('Geis');
+dump($geis);
 
 dump($geis->getDate());
 
 
 
+
+
+
 $local = new \Galek\Utils\Calendar\Localization('cs');
+//$dd = new \Galek\Utils\Calendar\Calendar('2018-03-29');
+//dump($dd);
+
+//dump($dd->getWorkDay(true));
 
 //dump($local->getInflexion(0, 1));
 
