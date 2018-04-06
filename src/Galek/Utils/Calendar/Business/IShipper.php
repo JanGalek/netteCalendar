@@ -18,6 +18,8 @@ interface IShipper
 
 	public function getCurrentDate(): Calendar;
 
+	public function setCurrentDate(Calendar $date = null);
+
 	public function getDate(): Calendar;
 
 	public function setTime(int $hour, int $minute): void;
