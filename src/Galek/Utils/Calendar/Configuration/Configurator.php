@@ -69,4 +69,16 @@ class Configurator
 	{
 		return $this->work[$group];
 	}
+
+
+	public function getLocalizations(): array
+	{
+		return $this->group;
+	}
+
+
+	public function getLocalization($group): ?Localization
+	{
+		return $this->group[$group];
+	}
 }
