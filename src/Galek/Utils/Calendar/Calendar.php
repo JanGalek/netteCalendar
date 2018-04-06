@@ -402,19 +402,31 @@ class Calendar extends DateTime
     public function werbDif(): string
     {
         $curDate = new Calendar();
-        $diff = $this->diff($curDate)->days;
+        $date = clone $this;
+        $date->setTime(0,0,0,0);
+        $curDate->setTime(0,0,0,0);
+		$diff = $date->diff($curDate)->days;
+
 
 		$local = $this->configuration->getLocalization()->getDifference();
 
-        if ($diff === 0) {
-        	return $local['today'];
-		} elseif ($diff === 1) {
-			return $local['tomorrow'];
-        } elseif ($diff === 2) {
-			return $local['afterTomorrow'];
-		} elseif ($diff < 5) {
-        	return $local['after'] . ' ' . $diff . ' ' . $local['twoDays'];
-        }
+		if ($date >= $curDate) {
+			if ($diff === 0) {
+				return $local['today'];
+			} elseif ($diff === 1) {
+				return $local['tomorrow'];
+			} elseif ($diff === 2) {
+				return $local['afterTomorrow'];
+			} elseif ($diff < 5) {
+				return $local['after'] . ' ' . $diff . ' ' . $local['twoDays'];
+			}
+		} else {
+			if ($diff === 1) {
+				return $local['yesterday'];
+			} else {
+				return $local[ 'before' ] . ' ' . $diff . ' ' . $local[ 'twoDays' ];
+			}
+		}
 
 		return $local['after'] . ' ' . $diff . ' ' . $local['fiveDays'];
     }

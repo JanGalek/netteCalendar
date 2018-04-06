@@ -77,7 +77,7 @@ public const CONFIG = [
 
 	public function testCustom1()
 	{
-		$configurator = new \GalekTests\Calendar\Models\Configurator(self::CONFIG);
+		$configurator = new \Galek\Utils\Calendar\Configuration\Configurator(self::CONFIG);
 
 		$date = new Calendar('2018-03-29 12:00');
 

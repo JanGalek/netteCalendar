@@ -58,6 +58,8 @@ inflexion:
 			7: 'saturday'
 
 difference:
+	before: 'before'
+	yesterday: 'yesterday'
 	today: 'today'
 	tomorrow: 'tomorrow'
 	afterTomorrow: 'after tomorrow'

@@ -58,6 +58,8 @@ inflexion:
 			7: 'sobotou'
 
 difference:
+	before: 'před'
+	yesterday: 'včera'
 	today: 'dnes'
 	tomorrow: 'zítra'
 	afterTomorrow: 'pozítří'
