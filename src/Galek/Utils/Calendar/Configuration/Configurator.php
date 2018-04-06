@@ -9,7 +9,7 @@ declare(strict_types=1);
 namespace Galek\Utils\Calendar\Configuration;
 
 use Galek\Utils\Calendar\Business\IShipper;
-use Galek\Utils\Calendar\Business\Shipper;
+use Galek\Utils\Calendar\Business\Work;
 
 
 class Configurator
@@ -61,7 +61,7 @@ class Configurator
 
 	protected function setWork(string $group, array $settings, Localization $localization): void
 	{
-		$this->work[$group] = new Work($settings, $localization);
+		$this->work[$group] = new Work($localization, $settings);
 	}
 
 

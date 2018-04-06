@@ -25,8 +25,12 @@ class Work
 	private $localization;
 
 
-	public function __construct(Localization $localization, int $startHour, int $startMinute, int $endHour, int $endMinute)
+	public function __construct(Localization $localization, array $settings)
 	{
+		$startHour = $settings['start']['hour'];
+		$startMinute = $settings['start']['minute'];
+		$endHour = $settings['start']['hour'];
+		$endMinute = $settings['start']['minute'];
 		HourValidator::validate($startHour);
 		MinuteValidator::validate($startMinute);
 		HourValidator::validate($endHour);
