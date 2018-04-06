@@ -47,6 +47,11 @@ class Shipper implements IShipper
 	 */
 	private $deliveryTime;
 
+	/**
+	 * @var Calendar
+	 */
+	private $date;
+
 
 
 	public function __construct(string $name, Localization $configuration, int $hour, int $minute, bool $weekend = false, int $deliveryTime = 1)
@@ -67,8 +72,18 @@ class Shipper implements IShipper
 
 	public function getCurrentDate(): Calendar
 	{
+		if ($this->date) {
+			return $this->date;
+		}
+
 		$date = new Calendar('now', null, $this->configuration);
 		return $date;
+	}
+
+
+	public function setCurrentDate(Calendar $date): void
+	{
+		$this->date = $date;
 	}
 
 

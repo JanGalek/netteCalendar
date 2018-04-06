@@ -68,7 +68,7 @@ $configuration = new \GalekTests\Calendar\Models\Configurator($config);
 bdump($configuration);
 
 $geis = $configuration->getShipper('cz','Geis');
-$testDate = new \Galek\Utils\Calendar\Calendar('2018-03-28 13:00:00');
+$testDate = new \Galek\Utils\Calendar\Calendar('2018-03-29 12:00:00');
 $geis->setCurrentDate($testDate);
 
 dump($geis);
