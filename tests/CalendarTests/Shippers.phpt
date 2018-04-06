@@ -56,6 +56,11 @@ public const CONFIG = [
 		'work' => self::workTime,
 		'shippers' => self::SHIPPERS,
 	],
+	'en' => [
+		'country' => 'Poland',
+		'work' => self::workTime,
+		'shippers' => self::SHIPPERS,
+	],
 ];
 
     public function testDay1()
@@ -85,6 +90,48 @@ public const CONFIG = [
 		$geis->setCurrentDate($date);
 
 		Assert::equal('2018-04-03', $geis->getDate()->format('Y-m-d'));
+	}
+
+
+	public function testDeliveryTextDayCZ()
+	{
+		$configurator = new \Galek\Utils\Calendar\Configuration\Configurator(self::CONFIG);
+
+		$date = new Calendar('2018-04-06 12:00');
+
+		$geis = $configurator->getShipper('cz', 'Geis');
+		$geis->setCurrentDate($date);
+
+
+		Assert::equal('v pondělí 2018-04-09', $geis->getDeliveryTextDate('Y-m-d'));
+	}
+
+
+	public function testDeliveryTextDaySK()
+	{
+		$configurator = new \Galek\Utils\Calendar\Configuration\Configurator(self::CONFIG);
+
+		$date = new Calendar('2018-04-06 12:00');
+
+		$geis = $configurator->getShipper('sk', 'Geis');
+		$geis->setCurrentDate($date);
+
+
+		Assert::equal('v pondelok 2018-04-09', $geis->getDeliveryTextDate('Y-m-d'));
+	}
+
+
+	public function testDeliveryTextDayEN()
+	{
+		$configurator = new \Galek\Utils\Calendar\Configuration\Configurator(self::CONFIG);
+
+		$date = new Calendar('2018-04-06 12:00');
+
+		$geis = $configurator->getShipper('en', 'Geis');
+		$geis->setCurrentDate($date);
+
+
+		Assert::equal('at monday 2018-04-09', $geis->getDeliveryTextDate('Y-m-d'));
 	}
 
 }

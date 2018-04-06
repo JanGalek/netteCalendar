@@ -57,6 +57,18 @@ class Localization
 	}
 
 
+	public function getAts()
+	{
+		return $this->loadConfig()['at'];
+	}
+
+
+	public function getAt($day)
+	{
+		return $this->getAts()[$day];
+	}
+
+
 	private function getInflexionDay($day)
 	{
 		return $this->getInflexionDays()[$day];

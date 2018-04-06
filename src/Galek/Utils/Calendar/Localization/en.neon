@@ -68,17 +68,11 @@ difference:
 	twoDays: 'days'
 	fiveDays: 'days'
 
-holidays:
-	# month - day
-	- '01-01'
-	- '03-25'
-	- '05-01'
-	- '05-08'
-	- '07-05'
-	- '07-06'
-	- '09-28'
-	- '10-28'
-	- '11-17'
-	- '12-24'
-	- '12-25'
-	- '12-26'
+at:
+	0: 'at' # sunday
+	1: 'at' # monday
+	2: 'at' # tuesday
+	3: 'at' # wednesday
+	4: 'at' # thursday
+	5: 'at' # friday
+	6: 'at' # saturday

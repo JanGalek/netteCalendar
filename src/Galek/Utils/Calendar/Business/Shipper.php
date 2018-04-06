@@ -116,6 +116,18 @@ class Shipper implements IShipper
 	}
 
 
+	public function getDeliveryTextDate(string $format = 'Y.m.d'): string
+	{
+		$date = $this->getDate();
+		$dayNumber = $date->dayNumber();
+		$local = $this->configuration->getLocalization();
+		$at = $local->getAt($dayNumber);
+		$day = $local->getInflexion($dayNumber, 4);
+
+		return $at . ' ' . $day . ' ' .$date->format($format);
+	}
+
+
 	public function setTime(int $hour, int $minute): void
 	{
 		$this->setHour($hour);

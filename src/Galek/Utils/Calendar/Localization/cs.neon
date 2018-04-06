@@ -67,3 +67,12 @@ difference:
 	oneDay: 'den'
 	twoDays: 'dny'
 	fiveDays: 'dnů'
+
+at:
+	0: 'v' # sunday
+	1: 'v' # monday
+	2: 'v' # tuesday
+	3: 've' # wednesday
+	4: 've' # thursday
+	5: 'v' # friday
+	6: 'v' # saturday

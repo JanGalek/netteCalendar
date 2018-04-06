@@ -22,6 +22,8 @@ interface IShipper
 
 	public function getDate(): Calendar;
 
+	public function getDeliveryTextDate(string $format = 'Y.m.d'): string;
+
 	public function setTime(int $hour, int $minute): void;
 
 	public function setHour(int $hour): void;

@@ -1,60 +1,60 @@
 inflexion:
 	days:
 		0: 
-			1: 'neděle'
-			2: 'neděle'
-			3: 'neděli'
-			4: 'neděli'
-			5: 'neděle'
-			6: 'neděli'
-			7: 'nedělí'
+			1: "nedeľa"
+			2: 'nedele'
+			3: 'nedeli'
+			4: 'nedeľu'
+			5: 'nedeľa'
+			6: 'nedeli'
+			7: 'nedeľou'
 		1:
-			1: 'pondělí'
-			2: 'pondělí'
-			3: 'pondělí'
-			4: 'pondělí'
-			5: 'pondělí'
-			6: 'pondělí'
-			7: 'pondělí'
+			1: 'pondelok'
+			2: 'pondelka'
+			3: 'pondelku'
+			4: 'pondelok'
+			5: 'pondelok'
+			6: 'pondelku'
+			7: 'pondelkom'
 		2:
-			1: 'úterý'
-			2: 'úterý'
-			3: 'úterý'
-			4: 'úterý'
-			5: 'úterý'
-			6: 'úterý'
-			7: 'úterý'
+			1: 'utorok'
+			2: 'utorka'
+			3: 'utorku'
+			4: 'utorok'
+			5: 'utorok'
+			6: 'utorku'
+			7: 'utorkom'
 		3:
 			1: 'streda'
 			2: 'stredy'
 			3: 'strede'
 			4: 'stredu'
-			5: 'stredo'
+			5: 'streda'
 			6: 'strede'
 			7: 'stredou'
 		4:
-			1: 'čtvrtek'
-			2: 'čtvrtku'
-			3: 'čtvrtku'
-			4: 'čtvrtek'
-			5: 'čtvrtku'
-			6: 'čtvrtku'
-			7: 'čtvrtkem'
+			1: 'štvrtok'
+			2: 'štvrtka'
+			3: 'štvrtku'
+			4: 'štvrtok'
+			5: 'štvrtok'
+			6: 'štvrtku'
+			7: 'štvrtkom'
 		5:
-			1: 'pátek'
-			2: 'pátku'
-			3: 'pátku'
-			4: 'pátek'
-			5: 'pátku'
-			6: 'pátku'
-			7: 'pátkem'
+			1: 'piatok'
+			2: 'piatka'
+			3: 'piatku'
+			4: 'piatok'
+			5: 'piatok'
+			6: 'piatku'
+			7: 'piatkom'
 		6:
 			1: 'sobota'
-			2: 'soboty'
-			3: 'sobotě'
+			2: 'sobotu'
+			3: 'sobote'
 			4: 'sobotu'
 			5: 'sobota'
-			6: 'sobotě'
+			6: 'sobotu'
 			7: 'sobotou'
 
 difference:
@@ -67,3 +67,12 @@ difference:
 	oneDay: 'deň'
 	twoDays: 'dni'
 	fiveDays: 'dní'
+
+at:
+	0: 'v' # sunday
+	1: 'v' # monday
+	2: 'v' # tuesday
+	3: 've' # wednesday
+	4: 've' # thursday
+	5: 'v' # friday
+	6: 'v' # saturday
