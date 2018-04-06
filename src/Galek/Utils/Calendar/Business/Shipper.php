@@ -50,7 +50,7 @@ class Shipper implements IShipper
 	/**
 	 * @var Calendar
 	 */
-	private $date;
+	private $currentDate;
 
 
 
@@ -72,8 +72,8 @@ class Shipper implements IShipper
 
 	public function getCurrentDate(): Calendar
 	{
-		if ($this->date) {
-			return $this->date;
+		if ($this->currentDate) {
+			return $this->currentDate;
 		}
 
 		$date = new Calendar('now', null, $this->configuration);
@@ -83,7 +83,7 @@ class Shipper implements IShipper
 
 	public function setCurrentDate(Calendar $date = null): void
 	{
-		$this->date = $date;
+		$this->currentDate = $date;
 	}
 
 
