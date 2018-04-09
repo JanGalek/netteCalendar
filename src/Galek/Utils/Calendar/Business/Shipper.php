@@ -83,7 +83,7 @@ class Shipper implements IShipper
 
 	public function setCurrentDate(Calendar $date = null): void
 	{
-		$this->currentDate = $date;
+		$this->currentDate = clone $date;
 	}
 
 
