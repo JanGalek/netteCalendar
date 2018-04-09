@@ -276,7 +276,7 @@ class Calendar extends DateTime
         if ($this->isWorkDay()) {
             $startTime = $this->getWorkTime(1);
             $endTime = $this->getWorkTime(2);
-            return $this->timeBetween($startTime[0], $startTime[1], $endTime[0], $endTime[1]);
+            return $this->timeBetween((int) $startTime[0], (int) $startTime[1], (int) $endTime[0], (int) $endTime[1]);
         }
 
         return false;
