@@ -59,22 +59,48 @@ class EasterHoliday
 
 	private static function calculate(int $year, int $s1, int $s2, int $d, int $e, int $a): Calendar
 	{
+		$date = null;
+		self::calculate1($date, $year, $s1);
+		self::calculate2($date, $year, $s2, $d, $e, $a);
+		self::calculate3($date, $year, $s2);
+		self::calculate4($date, $year, $s2);
+
+		return new Calendar($date ?? date('Y-m-d', easter_date($year)));
+	}
+
+
+	private static function calculate1(& $date, int $year, int $s1): void
+	{
 		if ($s1 >= 22 && $s1 <= 31) {
 			$date = $year . '-03-' . $s1;
-		} elseif ($s2 === 25 && $d === 28 && $e === 6 && $a > 10) {
+		}
+	}
+
+
+	private static function calculate2(& $date, int $year, int $s2, int $d, int $e, int $a): void
+	{
+		if ($date === null && ($s2 === 25 && $d === 28 && $e === 6 && $a > 10)) {
 			$date = $year . '-04-18';
-		} elseif ($s2 <= 25) {
+		}
+	}
+
+
+	private static function calculate3(& $date, int $year, int $s2): void
+	{
+		if ($date === null && $s2 <= 25) {
 			$date = $year . '-04-';
 			if ($s2 <= 9) {
 				$date .= '0';
 			}
 			$date .= $s2;
-		} elseif ($s2 > 25) {
-			$date = $year . '-04-' . ($s2 - 7);
-		} else {
-			$date = date('Y-m-d', easter_date($year));
 		}
+	}
 
-		return new Calendar($date);
+
+	private static function calculate4(& $date, int $year, int $s2): void
+	{
+		if ($date === null && $s2 > 25) {
+			$date = $year . '-04-' . ($s2 - 7);
+		}
 	}
 }
