@@ -27,7 +27,7 @@ class EasterHoliday
 	}
 
 
-	private static function getCalculableVars($year)
+	private static function getCalculableVars($year): array
 	{
 		[$a, $b, $c] = self::getCyclesVar($year);
 		[$m, $n] = self::getEasterVar($year);
@@ -53,9 +53,9 @@ class EasterHoliday
 
 	private static function getEasterVar(int $year): array
 	{
-		if ($year >= 1800 && $year <= 1899) {
+		if (Number::between($year, 1800, 1899)) {
 			return [23, 4];
-		} else if ($year >= 1900 && $year <= 2099) {
+		} else if (Number::between($year, 1900, 2099)) {
 			return [24, 5];
 		}
 
