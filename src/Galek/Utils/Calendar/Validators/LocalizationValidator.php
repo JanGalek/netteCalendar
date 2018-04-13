@@ -4,7 +4,7 @@
  * User: Galek
  * Date: 9.3.2018
  */
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Galek\Utils\Calendar\Validators;
 
@@ -18,7 +18,7 @@ class LocalizationValidator implements IValidator
 
 	public static function validate($value): bool
 	{
-		if ( \in_array($value, Localization::$list, false) ) {
+		if (\in_array($value, Localization::$list, false)) {
 			return true;
 		}
 

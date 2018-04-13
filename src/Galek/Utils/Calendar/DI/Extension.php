@@ -4,7 +4,7 @@
  * User: Galek
  * Date: 19.3.2018
  */
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Galek\Utils\Calendar\DI;
 

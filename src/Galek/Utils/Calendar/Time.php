@@ -4,7 +4,7 @@
  * User: Galek
  * Date: 9.3.2018
  */
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Galek\Utils\Calendar;
 
@@ -41,7 +41,7 @@ class Time
 	{
 
 		if ($hour1 > $hour2) {
-			$date2 = $date->getDay() . '.' . $date->getMon() . '.' . $date->getYear();
+			$date2 = $date->getDay() . '.' . $date->getMonth() . '.' . $date->getYear();
 
 			$firstDate = new Calendar($date2 . ' ' . $hour1 . ':' . $minute1);
 			$lastDate = new Calendar($date2 . ' ' . $hour2 . ':' . $minute2);

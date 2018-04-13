@@ -1,15 +1,15 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: Jan Galek
- * Date: 10.03.2018
+ * User: Galek
+ * Date: 13.4.2018
  */
 declare(strict_types = 1);
 
 namespace Galek\Utils\Calendar\Exceptions;
 
 
-class InvalidHourException extends \Exception
+class EasterNotCalculable extends \Exception
 {
 
 }

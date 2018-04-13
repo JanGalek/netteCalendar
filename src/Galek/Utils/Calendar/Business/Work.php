@@ -4,7 +4,7 @@
  * User: Jan Galek
  * Date: 10.03.2018
  */
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Galek\Utils\Calendar\Business;
 
@@ -29,8 +29,8 @@ class Work
 	{
 		$startHour = $settings['start']['hour'];
 		$startMinute = $settings['start']['minute'];
-		$endHour = $settings['start']['hour'];
-		$endMinute = $settings['start']['minute'];
+		$endHour = $settings['end']['hour'];
+		$endMinute = $settings['end']['minute'];
 		HourValidator::validate($startHour);
 		MinuteValidator::validate($startMinute);
 		HourValidator::validate($endHour);

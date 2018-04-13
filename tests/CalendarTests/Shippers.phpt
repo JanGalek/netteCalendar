@@ -12,75 +12,59 @@ use Galek\Utils\Calendar\Calendar;
 class ShippersTest extends \Tester\TestCase
 {
 
-public const SHIPPERS = [
-	'Geis' => [
-		'endHour' => 13,
-		'endMinute' => 0,
-		'weekend' => false,
-		'deliveryTime' => 1,
-	],
-	'PPL' => [
-		'endHour' => 14,
-		'endMinute' => 0,
-		'weekend' => false,
-		'deliveryTime' => 1,
-	],
-	'DPD' => [
-		'endHour' => 14,
-		'endMinute' => 0,
-		'weekend' => false,
-		'deliveryTime' => 1,
-	],
-];
+	public const SHIPPERS = [
+		'Geis' => [
+			'endHour' => 13,
+			'endMinute' => 0,
+			'weekend' => false,
+			'deliveryTime' => 1,
+		],
+		'PPL' => [
+			'endHour' => 14,
+			'endMinute' => 0,
+			'weekend' => false,
+			'deliveryTime' => 1,
+		],
+		'DPD' => [
+			'endHour' => 14,
+			'endMinute' => 0,
+			'weekend' => false,
+			'deliveryTime' => 1,
+		],
+	];
 
-public const workTime = [
-	'start' => [
-		'hour' => 8,
-		'minute' => 0
-	],
-	'end' => [
-		'hour' => 16,
-		'minute' => 30
-	],
-	'weekend' => false
-];
+	public const workTime = [
+		'start' => [
+			'hour' => 8,
+			'minute' => 0
+		],
+		'end' => [
+			'hour' => 16,
+			'minute' => 30
+		],
+		'weekend' => false
+	];
 
-public const CONFIG = [
-	'cz' => [
-		'country' => 'CzechRepublic',
-		'work' => self::workTime,
-		'shippers' => self::SHIPPERS,
-	],
-	'sk' => [
-		'country' => 'Slovakia',
-		'work' => self::workTime,
-		'shippers' => self::SHIPPERS,
-	],
-	'en' => [
-		'country' => 'Poland',
-		'work' => self::workTime,
-		'shippers' => self::SHIPPERS,
-	],
-];
-
-    public function testDay1()
-    {
-        $date = new Calendar(DATE_RELEASE . ' 14:02');
-        $date->setShippingDays(3);
-
-        Assert::equal(3, $date->getShippingDays(), 'dneska pracovni den 1');
-    }
-
-	public function testDay2()
-	{
-		$date = new Calendar(DATE_RELEASE . ' 14:02');
-		$date->disableShippingWeekend();
-		Assert::equal($date, $date);
-
-	}
+	public const CONFIG = [
+		'cz' => [
+			'country' => 'CzechRepublic',
+			'work' => self::workTime,
+			'shippers' => self::SHIPPERS,
+		],
+		'sk' => [
+			'country' => 'Slovakia',
+			'work' => self::workTime,
+			'shippers' => self::SHIPPERS,
+		],
+		'en' => [
+			'country' => 'Poland',
+			'work' => self::workTime,
+			'shippers' => self::SHIPPERS,
+		],
+	];
 
 
-	public function testCustom1()
+	public function testCustom1(): void
 	{
 		$configurator = new \Galek\Utils\Calendar\Configuration\Configurator(self::CONFIG);
 
@@ -93,7 +77,7 @@ public const CONFIG = [
 	}
 
 
-	public function testDeliveryTextDayCZ()
+	public function testDeliveryTextDayCZ(): void
 	{
 		$configurator = new \Galek\Utils\Calendar\Configuration\Configurator(self::CONFIG);
 
@@ -107,7 +91,7 @@ public const CONFIG = [
 	}
 
 
-	public function testDeliveryTextDaySK()
+	public function testDeliveryTextDaySK(): void
 	{
 		$configurator = new \Galek\Utils\Calendar\Configuration\Configurator(self::CONFIG);
 
@@ -121,7 +105,7 @@ public const CONFIG = [
 	}
 
 
-	public function testDeliveryTextDayEN()
+	public function testDeliveryTextDayEN(): void
 	{
 		$configurator = new \Galek\Utils\Calendar\Configuration\Configurator(self::CONFIG);
 

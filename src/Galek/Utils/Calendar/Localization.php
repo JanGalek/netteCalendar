@@ -4,7 +4,7 @@
  * User: Galek
  * Date: 9.3.2018
  */
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Galek\Utils\Calendar;
 
@@ -69,6 +69,21 @@ class Localization
 	}
 
 
+	public function getTranslateDifference(Calendar $date): string
+	{
+		$curDate = new Calendar();
+		$date = clone $date;
+
+		$date->setTime(0, 0, 0, 0);
+		$curDate->setTime(0, 0, 0, 0);
+
+		$diff = $date->diff($curDate)->days;
+		$local = $this->getDifference();
+
+		return Helper::dateDifferenceTranslation($date, $curDate, $diff, $local);
+	}
+
+
 	private function getInflexionDay($day)
 	{
 		return $this->getInflexionDays()[$day];
@@ -92,7 +107,7 @@ class Localization
 		if (!$this->config) {
 			$file = __DIR__ . '/Localization/' . $this->local . '.neon';
 
-			$this->config =  Neon::decode(file_get_contents($file), Neon::BLOCK);
+			$this->config = Neon::decode(file_get_contents($file), Neon::BLOCK);
 		}
 
 		return $this->config;

@@ -4,7 +4,7 @@
  * User: Galek
  * Date: 9.3.2018
  */
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Galek\Utils\Calendar\Business;
 
@@ -57,7 +57,7 @@ class Shipper implements IShipper
 	public function __construct(string $name, Localization $configuration, int $hour, int $minute, bool $weekend = false, int $deliveryTime = 1)
 	{
 		$this->setTime($hour, $minute);
-		$this->enableWeekend($weekend);
+		$this->weekend = $weekend;
 		$this->configuration = $configuration;
 		$this->deliveryTime = $deliveryTime;
 		$this->name = $name;
@@ -97,18 +97,18 @@ class Shipper implements IShipper
 			}
 
 			if ($this->weekend === false) {
-				$date = $date->getWorkDay();
+				$date = Day::getWorkDay($date, $date->getHolidays());
 			}
 		} else {
 			if ($this->weekend === false) {
-				$date = $date->getWorkDay();
+				$date = Day::getWorkDay($date, $date->getHolidays());
 			}
 		}
 
 		$date->modify('+' . $this->deliveryTime . ' days');
 
 		if ($this->weekend === false) {
-			$date = $date->getWorkDay();
+			$date = Day::getWorkDay($date, $date->getHolidays());
 		}
 
 		//return $date->getWorkDay();
@@ -119,12 +119,12 @@ class Shipper implements IShipper
 	public function getDeliveryTextDate(string $format = 'Y.m.d'): string
 	{
 		$date = $this->getDate();
-		$dayNumber = $date->dayNumber();
+		$dayNumber = Day::getNumber($date);
 		$local = $this->configuration->getLocalization();
 		$at = $local->getAt($dayNumber);
 		$day = $local->getInflexion($dayNumber, 4);
 
-		return $at . ' ' . $day . ' ' .$date->format($format);
+		return $at . ' ' . $day . ' ' . $date->format($format);
 	}
 
 
