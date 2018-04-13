@@ -24,9 +24,7 @@ class EasterHoliday
 
 	public static function getEaster(int $year): Calendar
 	{
-		$a = ($year % 19); // cyklus stejnych dnu
-		$b = ($year % 4); // cyklus prestupnych roku
-		$c = ($year % 7); // dorovnani dne v tydnu
+		[$a, $b, $c] = self::getCyclesVar($year);
 		[$m, $n] = self::getEasterVar($year);
 
 		$d = (((19 * $a) + $m) % 30);
@@ -36,6 +34,16 @@ class EasterHoliday
 		$s2 = ($d + $e - 9);
 
 		return self::calculate($year, $s1, $s2, $d, $e, $a);
+	}
+
+
+	private static function getCyclesVar(int $year)
+	{
+		$a = ($year % 19); // cyklus stejnych dnu
+		$b = ($year % 4); // cyklus prestupnych roku
+		$c = ($year % 7); // dorovnani dne v tydnu
+
+		return [$a, $b, $c];
 	}
 
 
