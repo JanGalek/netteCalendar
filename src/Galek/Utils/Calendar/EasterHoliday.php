@@ -8,8 +8,6 @@ declare(strict_types = 1);
 
 namespace Galek\Utils\Calendar;
 
-use Galek\Utils\Calendar\Exceptions\EasterNotCalculable;
-
 class EasterHoliday
 {
 
@@ -24,20 +22,26 @@ class EasterHoliday
 
 	public static function getEaster(int $year): Calendar
 	{
+		[$s1, $s2, $d, $e, $a] = self::getCalculableVars($year);
+		return self::calculate($year, $s1, $s2, $d, $e, $a);
+	}
+
+
+	private static function getCalculableVars($year)
+	{
 		[$a, $b, $c] = self::getCyclesVar($year);
 		[$m, $n] = self::getEasterVar($year);
-
 		$d = (((19 * $a) + $m) % 30);
 		$e = (($n + (2 * $b) + (4 * $c) + (6 * $d)) % 7);
 
 		$s1 = (22 + $d + $e);
 		$s2 = ($d + $e - 9);
 
-		return self::calculate($year, $s1, $s2, $d, $e, $a);
+		return [$s1, $s2, $d, $e, $a];
 	}
 
 
-	private static function getCyclesVar(int $year)
+	private static function getCyclesVar(int $year): array
 	{
 		$a = ($year % 19); // cyklus stejnych dnu
 		$b = ($year % 4); // cyklus prestupnych roku
