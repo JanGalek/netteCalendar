@@ -94,9 +94,15 @@ class EasterHoliday
 
 	private static function calculate2(& $date, int $year, int $s2, int $d, int $e, int $a): void
 	{
-		if ($date === null && ($s2 === 25 && $d === 28 && $e === 6 && $a > 10)) {
+		if ($date === null && self::checkCalculate2($s2, $d, $e, $a)) {
 			$date = $year . '-04-18';
 		}
+	}
+
+
+	private static function checkCalculate2(int $s2, int $d, int $e, int $a)
+	{
+		return ($s2 === 25 && $d === 28 && $e === 6 && $a > 10);
 	}
 
 
