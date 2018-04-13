@@ -51,12 +51,12 @@ class EasterHoliday
 	}
 
 
-	private static function getEasterVar($year): array
+	private static function getEasterVar(int $year): array
 	{
-		if ($year >= '1800' && $year <= '1899') {
+		if ($year >= 1800 && $year <= 1899) {
 			$m = 23;
 			$n = 4;
-		} else if ($year >= '1900' && $year <= '2099') {
+		} else if ($year >= 1900 && $year <= 2099) {
 			$m = 24;
 			$n = 5;
 		} else {
