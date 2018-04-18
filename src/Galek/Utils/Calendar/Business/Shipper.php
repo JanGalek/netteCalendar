@@ -89,7 +89,7 @@ class Shipper implements IShipper
 
 	public function getDate(): Calendar
 	{
-		$date = $this->getCurrentDate();
+		$date = clone $this->getCurrentDate();
 
 		if (Day::isWork($this->configuration->getHolidays(), $date)) {
 			if (Time::over($date, $this->hour, $this->minute)) {
