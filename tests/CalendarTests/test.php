@@ -63,7 +63,7 @@ $config = [
 ];
 
 
-$configuration = new \GalekTests\Calendar\Models\Configurator($config);
+$configuration = new \Galek\Utils\Calendar\Configuration\CalendarManager($config);
 
 bdump($configuration);
 
