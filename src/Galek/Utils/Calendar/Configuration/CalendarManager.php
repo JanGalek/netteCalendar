@@ -12,8 +12,12 @@ use Galek\Utils\Calendar\Business\IShipper;
 use Galek\Utils\Calendar\Business\Work;
 
 
-class Configurator
+class CalendarManager
 {
+
+	/**
+	 * @var Localization[]
+	 */
 	protected $group = [];
 
 	/**
@@ -25,6 +29,7 @@ class Configurator
 	 * @var Work[]
 	 */
 	protected $work;
+
 
 	public function __construct(array $configuration = [])
 	{
@@ -52,6 +57,7 @@ class Configurator
 	{
 		return $this->shippers[$group]->getShipper($name);
 	}
+
 
 	public function getShippers(string $group): array
 	{
@@ -81,4 +87,5 @@ class Configurator
 	{
 		return $this->group[$group];
 	}
+
 }
