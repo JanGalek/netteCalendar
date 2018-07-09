@@ -66,7 +66,7 @@ class ShippersTest extends \Tester\TestCase
 
 	public function testCustom1(): void
 	{
-		$configurator = new \Galek\Utils\Calendar\Configuration\Configurator(self::CONFIG);
+		$configurator = new \Galek\Utils\Calendar\Configuration\CalendarManager(self::CONFIG);
 
 		$date = new Calendar('2018-03-29 12:00');
 
@@ -79,7 +79,7 @@ class ShippersTest extends \Tester\TestCase
 
 	public function testDeliveryTextDayCZ(): void
 	{
-		$configurator = new \Galek\Utils\Calendar\Configuration\Configurator(self::CONFIG);
+		$configurator = new \Galek\Utils\Calendar\Configuration\CalendarManager(self::CONFIG);
 
 		$date = new Calendar('2018-04-06 12:00');
 
@@ -93,7 +93,7 @@ class ShippersTest extends \Tester\TestCase
 
 	public function testDeliveryTextDaySK(): void
 	{
-		$configurator = new \Galek\Utils\Calendar\Configuration\Configurator(self::CONFIG);
+		$configurator = new \Galek\Utils\Calendar\Configuration\CalendarManager(self::CONFIG);
 
 		$date = new Calendar('2018-04-06 12:00');
 
@@ -107,7 +107,7 @@ class ShippersTest extends \Tester\TestCase
 
 	public function testDeliveryTextDayEN(): void
 	{
-		$configurator = new \Galek\Utils\Calendar\Configuration\Configurator(self::CONFIG);
+		$configurator = new \Galek\Utils\Calendar\Configuration\CalendarManager(self::CONFIG);
 
 		$date = new Calendar('2018-04-06 12:00');
 

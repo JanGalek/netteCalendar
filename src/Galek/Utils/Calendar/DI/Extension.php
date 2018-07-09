@@ -9,7 +9,7 @@ declare(strict_types = 1);
 namespace Galek\Utils\Calendar\DI;
 
 
-use Galek\Utils\Calendar\Configuration\Configurator;
+use Galek\Utils\Calendar\Configuration\CalendarManager;
 use Nette\DI\CompilerExtension;
 
 
@@ -26,6 +26,6 @@ class Extension extends CompilerExtension
 		$this->checkConfig($config);
 
 		$builder->addDefinition($this->prefix('galek.calendar'))
-			->setFactory(Configurator::class, [$config]);
+			->setFactory(CalendarManager::class, [$config]);
 	}
 }
