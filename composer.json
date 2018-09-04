@@ -25,5 +25,8 @@
         "nette/tester": "^1.7|^2.0",
         "tracy/tracy": "^2.4"
     },
-    "minimum-stability": "stable"
+    "minimum-stability": "stable",
+    "scripts": {
+        "tests": "vendor\\bin\\tester ./tests/"
+    }
 }
