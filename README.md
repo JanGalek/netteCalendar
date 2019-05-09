@@ -74,3 +74,9 @@ Documentation
 Learn more in the [documentation](https://github.com/JanGalek/netteCalendar/blob/master/docs/en/index.md) and [czech version of documentation](https://github.com/JanGalek/netteCalendar/blob/master/docs/cs/index.md).
 
 Migration and changelog 1.x -> 2.x [documentation](https://github.com/JanGalek/netteCalendar/blob/master/docs/en/migration-1.x-to-2.x.md) and [czech version of documentation](https://github.com/JanGalek/netteCalendar/blob/master/docs/cs/migration-1.x-to-2.x.md).
+
+
+Future
+------
+
+This repository will be rewrite to https://github.com/DateTi for smallest repositories and will use more interfaces ;)
